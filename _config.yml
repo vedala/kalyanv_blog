@@ -8,3 +8,5 @@ defaults:
       path: ""
     values:
       author: "Kalyan Vedala"
+disqus:
+    shortname: kalyanvblog
