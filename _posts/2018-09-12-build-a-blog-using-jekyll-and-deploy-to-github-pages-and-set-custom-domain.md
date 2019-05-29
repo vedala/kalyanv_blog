@@ -9,8 +9,8 @@ more and loved it immediately.
 The first thing that appealed to me about Jekyll was how programmer-friendly it
 was. Creating a site using Jekyll felt very similar to a developer's day-to-day
 tasks. Another thing that appealed to me was Jekyll's integration with GitHub
-Pages. Finally the ability to set custom domain for sites hosted on GitHub Pages
-tipped my decision towards using Jekyll.
+Pages. Finally, free hosting provided by GitHub Pages (along with the ability
+to set custom domains) tipped my decision towards using Jekyll.
 
 I have written this post to serve as a stand-alone tutorial, while also trying
 to keep it short. I briefly describe new terms and concepts as I introduce them,
