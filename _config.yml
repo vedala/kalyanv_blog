@@ -1,0 +1,10 @@
+theme: minima
+title: KalyanV
+header_pages:
+    - projects.md
+    - about.md
+defaults:
+  - scope:
+      path: ""
+    values:
+      author: "Kalyan Vedala"
