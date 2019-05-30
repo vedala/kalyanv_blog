@@ -2,4 +2,4 @@
 layout: home
 ---
 
-Welcome to my blog.
+Welcome to my blog. {{ site.description }}
