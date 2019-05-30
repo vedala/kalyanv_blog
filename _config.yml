@@ -1,9 +1,14 @@
 theme: minima
 title: KalyanV
-author: "Kalyan Vedala"
+author: &anchor_author "Kalyan Vedala"
 header_pages:
     - projects.md
     - about.md
+defaults:
+  - scope:
+      path: ""
+    values:
+      author: *anchor_author
 disqus:
     shortname: kalyanvblog
 description: I blog here about software development topics related to projects and tools I happen to be working on currently.
