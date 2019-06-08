@@ -1,0 +1,21 @@
+---
+layout: default
+title: Contact
+---
+<form id="contact-form" action="{{ action_url }}" method="post">
+  <div class="form-elem-group">
+    <label for="name">Name <span>(Required)<span></label>
+    <input type="text" class="form-elem" id="name" name="name" required>
+  </div>
+  <div class="form-elem-group">
+  <label for="email">Email <span>(Required)</span></label>
+  <input type="email" class="form-elem" id="email" name="email" required>
+  </div>
+  <div class="form-elem-group">
+  <label for="message">Message <span>(Required)</span></label>
+  <textarea id="message" class="form-elem" name="message" rows="6" placeholder="Enter message" required></textarea>
+  </div>
+  <button class="form-button" type="submit">
+    <span class="form-button-text">Submit</span>
+  </button>
+</form>
