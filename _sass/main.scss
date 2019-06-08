@@ -14,3 +14,37 @@ div.form-elem-group {
   border-radius: 0.4em;
   box-sizing: border-box;
 }
+form#contact-form textarea {
+  resize: vertical;
+  height: 8em;
+}
+div.form-elem-group input {
+  font-size: 90%;
+  height: 2.5em;
+}
+div.form-elem-group textarea {
+  font-size: 85%;
+}
+div.form-elem-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.3em;
+}
+div.form-elem-group label span {
+  font-size: small;
+  font-weight: normal;
+}
+.form-button {
+  font-size: inherit;
+  border: 1px solid #bbb;
+  border-radius: 0.4em;
+  height: 2.5em;
+  padding: 0.4em 0.8em;
+}
+.form-button:hover {
+  background-color: #aaa;
+}
+.form-button-text {
+  font-size: 90%;
+  font-weight: bold;
+}
