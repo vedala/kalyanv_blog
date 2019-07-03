@@ -3,4 +3,4 @@ layout: home
 list_title: "Latest Posts"
 ---
 
-Welcome to my blog. {{ site.description }}
+Welcome to my site. {{ site.description }}
