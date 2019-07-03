@@ -1,12 +1,12 @@
 ---
 title: Tutorial - Setting Up A Basic Data Pipeline
 ---
-Introductory paragraph here
 
 ## Introduction
 To find datasets that I could use for my demo data engineering project,
-I started with a simple Google search and found <a href="https://www.springboard.com/blog/free-public-data-sets-data-science-project/">this</a> blog post among
-several useful hits.
+I started with a simple Google search and found
+[this post](https://www.springboard.com/blog/free-public-data-sets-data-science-project/)
+among several useful hits.
 
 
 Of the datasets described in the blog post, I picked Walmart Recruiting Store Sales data.
@@ -14,8 +14,7 @@ Some of the reasons for picking this dataset are:
 - retail data, easy to understand domain
 - this data is hosted on Kaggle, very good description of data is provided by Kaggle
 
-Source data located <a href="https://www.kaggle.com/c/walmart-recruiting-store-sales-forecasting">here</a>.
-
+Source data located [here](https://www.kaggle.com/c/walmart-recruiting-store-sales-forecasting).
 
 
 ## Schema Design
@@ -69,18 +68,16 @@ and two fact tables. The tables and their fields are listed below:
   - Unemployment
 
 
-
 ## Data Cleaning and Preparation
 
-I picked <a href="https://www.stitchdata.com/">Stitch</a> as the ETL
-tool for this project (I describe the process of selecting the ETL tool
+I picked [Stitch](https://www.stitchdata.com/) as the ETL tool for
+this project (I describe the process of selecting the ETL tool
 in the next section).
-
 
 In this section, I describe the cleaning and prepration I performed while
 creating each of the dimension and fact CSV files. Because the ETL tool that
 I picked is a sync-only tool, I had to perform cleaning of certain data
-items that would otherwise be performed by the ETL tool (I found Stitch to
+items that would otherwise be performed by an ETL tool (I found Stitch to
 be great even with this limitation).
 
 - Date dimension CSV file generation
@@ -107,10 +104,9 @@ the source data files, clean and prepare CSV files containing dimension
 
 Links to source code of the Lambda functions are:
 
-- <a href="https://github.com/vedala/dataeng_wm/blob/master/lambda/prepare_datedim.sh">Date dimension Lambda function</a>
-- <a href="https://github.com/vedala/dataeng_wm/blob/master/lambda/prepare_salesfact.sh">Sales fact Lambda function</a>
-- <a href="https://github.com/vedala/dataeng_wm/blob/master/lambda/prepare_featuresfact.sh">Features fact Lambda function</a>
-
+- [Date dimension Lambda function](https://github.com/vedala/dataeng_wm/blob/master/lambda/prepare_datedim.sh)
+- [Sales fact Lambda function](https://github.com/vedala/dataeng_wm/blob/master/lambda/prepare_salesfact.sh)
+- [Features fact Lambda function](https://github.com/vedala/dataeng_wm/blob/master/lambda/prepare_featuresfact.sh)
 
 
 
@@ -118,7 +114,7 @@ Links to source code of the Lambda functions are:
 
 ### ETL Tool
 
-Stitch is used as ETL tool (<a href="https://www.stitchdata.com/">link</a>).
+Stitch is used as ETL tool ([link](https://www.stitchdata.com/)).
 
 
 Stitch is a sync-only provider. Stitch tool does not provide any
@@ -168,8 +164,8 @@ performed on the data.
 
 ### Implementation
 
-  - <a href="https://github.com/vedala/dataeng_wm/blob/master/lambda/analysis501.py">Analysis-1 Lambda function</a>
-  - <a href="https://github.com/vedala/dataeng_wm/blob/master/lambda/analysis502.py">Analysis-2 Lambda function</a>
+  - [Analysis-1 Lambda function](https://github.com/vedala/dataeng_wm/blob/master/lambda/analysis501.py)
+  - [Analysis-2 Lambda function](https://github.com/vedala/dataeng_wm/blob/master/lambda/analysis502.py)
 
 
 ### Analysis 1 - Data Availability, Number of Weeks per Year
