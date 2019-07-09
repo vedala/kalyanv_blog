@@ -48,3 +48,6 @@ to get my Lambda function working.
     - [Amazon Compute Blog post](https://aws.amazon.com/blogs/compute/nodejs-packages-in-lambda/) - this post is mainly about node.js, but it talks about building libraries using an EC2 instance.
 - AWS Lamdba supports python 3.7
     - [AWS Compute Blog post](https://aws.amazon.com/about-aws/whats-new/2018/11/aws-lambda-supports-python-37/)
+- Resolving "libpq.so: cannot open shared object file" error
+    - [AWS forum post](https://forums.aws.amazon.com/thread.jspa?messageID=680192) - this post contains discussion about this issue and a solution suggested by forum participant.
+    - [Github project with steps on building psycopg2 library](https://github.com/jkehler/awslambda-psycopg2) - this Github project is created by the forum participant mentioned in the previous reference. This project lists steps to build postgresql and psycopg2 from source code. Also contains ready-to-use psycopg2 library for python 3.6.
