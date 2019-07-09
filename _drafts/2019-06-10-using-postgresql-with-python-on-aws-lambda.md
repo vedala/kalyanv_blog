@@ -1,7 +1,7 @@
 ---
 title: Using PostgreSQL With Python on AWS Lambda
 ---
-While working on a tutorial for setting up a basic data pipeline, described
+While working on a personal project for setting up a basic data pipeline, described
 [here]({{ site.baseurl }}
 {% link _posts/2018-09-12-build-a-blog-using-jekyll-and-deploy-to-github-pages-and-set-custom-domain.md %}),
 I ran into an issue where psycopg2 library was not available
@@ -35,6 +35,77 @@ available for accessing postgreSQL from python, psycopg2 is the most widely used
 
 ```
 $ pip install psycopg2
+```
+
+### Create python lambda function script
+
+Create a directory that will be used to hold the lambda script and dependency library:
+
+```
+$ mkdir pypg_lambda
+```
+
+In the directory, create the lambda script:
+
+```
+$ cd pypg_lambda
+$ touch my_lambda.py
+```
+
+Add following as contents of the file `my_lambda.py`:
+
+**my_lambda.py**
+```
+import sys
+import logging
+import psycopg2
+import json
+import os
+
+# rds settings
+rds_host  = os.environ.get('RDS_HOST')
+rds_username = os.environ.get('RDS_USERNAME')
+rds_user_pwd = os.environ.get('RDS_USER_PWD')
+rds_db_name = os.environ.get('RDS_DB_NAME')
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+try:
+    conn_string = "host=%s user=%s password=%s dbname=%s" % \
+                    (rds_host, rds_username, rds_user_pwd, rds_db_name)
+    conn = psycopg2.connect(conn_string)
+except:
+    logger.error("ERROR: Could not connect to Postgres instance.")
+    sys.exit()
+
+logger.info("SUCCESS: Connection to RDS Postgres instance succeeded")
+
+def handler(event, context):
+
+    query = """select name, salary
+            from mydatabase.employee
+            order by 1"""
+
+    with conn.cursor() as cur:
+        rows = []
+        cur.execute(query)
+        for row in cur:
+            rows.append(row)
+
+    return { 'statusCode': 200, 'body': rows }
+```
+
+The above file is an example of a very simple lambda function that fetches
+records from a table and returns them when the lambda function is invoked.
+
+You need to create a AWS RDS PostgreSQL instance with a database `mydatabase`.
+In this database, a table `employee` needs to be created.
+
+```
+-- Employee table
+
+
 ```
 
 ### Create deployment package
