@@ -110,7 +110,94 @@ In this database, a table `employee` needs to be created.
 
 ### Create deployment package
 
+Enter `pypg_lambda` directory (if not already there):
+
+```
+$ cd pypg_lambda
+```
+
+Copy the psycopg2 installed package to `pypg_lambda` directory:
+
+```
+$ cp -r ~/venv/lib/python3.7/site-packages/psycopg2 .
+```
+
+In the above command, we created the virtual environment in the home directory
+of our development machine. Modify the `cp` command to suit your directory's
+location.
+
+Create the deployment package:
+
+```
+$ zip -r ../my_lambda.zip .
+```
+
 ### Create lambda function using the deployment package
+
+Set environment variables related to RDS database instance
+
+```
+$
+```
+
+Set environment variables related to VPC for use with `aws` cli command.
+We can avoid this step by directly typing the details into the `aws` command.
+But having these details as environment variables make entering the command
+easier and less tedious.
+
+```
+$
+```
+
+Create the lambda function:
+
+```
+$ aws lambda create-function --region "us-east-1" \
+    --function-name "mylambda"       \
+    --zip-file fileb://mylambda.zip  \
+    --handler "mylambda.handler"     \
+    --role "${role_arn}"             \
+    --runtime "python3.7"            \
+    --timeout 60                     \
+    --vpc-config SubnetIds="${subnet_ids}",SecurityGroupIds="${sec_group_id}" \
+    --environment Variables="{RDS_HOST=${RDS_HOST},           \
+                              RDS_USERNAME=${RDS_USERNAME},   \
+                              RDS_USER_PWD=${RDS_USER_PWD},   \
+                              RDS_DB_NAME=${RDS_DB_NAME}}"
+```
+
+Invoke the lambda function:
+
+```
+$ aws lambda invoke --function-name mylambda  ~/lambda_output.txt
+```
+
+Following error is encountered on invocation of the lambda function:
+
+`Unable to import module 'mylambda': No module named 'psycopg2._psycopg'`
+
+The psycopg2 folder under the deployment package folder contains the following
+library:
+
+`_psycopg.cpython-37m-darwin.so`
+
+To explore the possibility that lambda function is looking for `_psycopg.so`
+file, we rename the file:
+
+```
+mv _psycopg.cpython-37m-darwin.so _psycopg.so
+```
+
+And redeploy the lambda function:
+- Create a new zip archive from the deployment package folder `pypg_lambda`
+- Delete lambda function using AWS interface
+- Use `aws lambda create-function` to deploy using the updated deployment package
+
+Invoking lambda function again, this time the following error is encountered:
+
+`Runtime.ImportModuleError: Unable to import module 'mylambda': /var/task/psycopg2/_psycopg.so: invalid ELF header`
+
+We describe how we resolved this error in the next section.
 
 ## 2. Resolving "Invalid ELF header" error
 
