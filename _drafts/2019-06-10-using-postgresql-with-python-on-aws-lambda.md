@@ -21,9 +21,6 @@ to get my Lambda function working.
 ## 2. Resolving "Invalid ELF header" error
 
 ### Background
-- references, why this needed
-- pick postgresql version for source code
-- pick psycopg2 version for source code (why = latest, because working on Mac dev machine)
 
 ### Setting up virtual environment on an EC2 instance
 
@@ -32,6 +29,11 @@ to get my Lambda function working.
 ## 3. Resolving "libpq.so.x cannot open shared object file" error
 
 ### Background
+- references, why this needed
+- mention jkehler reference has library build on AMI image that can be downloaded and used directly. But that library is from 2 years ago, so it works with python 3.6 but not python 3.7.
+- pick postgresql version for source code
+- pick psycopg2 version for source code (why = latest, because working on Mac dev machine)
+- Amazon started supporting python 3.7 in AWS Lambda since November, 2018. So use newer versions of postgresql and psycopg2.
 
 ### Compiling postgresql from source code
 
@@ -41,6 +43,8 @@ to get my Lambda function working.
 - AWS document on how to create deployment package in Python
     - [AWS Lambda Deployment Package in Python](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html)
 - Resolving "invalid ELF header" error
-    - [TG4 Solution blog post - How to resolve an invalid ELF header error quickly](https://tg4.solutions/how-to-resolve-invalid-elf-header-error/)
+    - [TG4 Solutions blog post - How to resolve an invalid ELF header error quickly](https://tg4.solutions/how-to-resolve-invalid-elf-header-error/)
     - [Stackoverflow question](https://stackoverflow.com/a/34885155/3137099)
     - [Amazon Compute Blog post](https://aws.amazon.com/blogs/compute/nodejs-packages-in-lambda/) - this post is mainly about node.js, but it talks about building libraries using an EC2 instance.
+- AWS Lamdba supports python 3.7
+    - [AWS Compute Blog post](https://aws.amazon.com/about-aws/whats-new/2018/11/aws-lambda-supports-python-37/)
