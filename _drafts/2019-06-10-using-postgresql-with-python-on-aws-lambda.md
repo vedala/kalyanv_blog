@@ -12,7 +12,30 @@ to get my Lambda function working.
 
 ## 1. Create deployment package as described in AWS documentation
 
-### Setup python virtual environment on the development machine
+In this section, we follow the instructions as outlined in the AWS documentation
+[here](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html). We use the virtual environment method.
+
+### Setup python virtual environment on development machine
+
+On your development machine (Mac in our case), create a python virtual environment (we are
+using python 3.7.3, the latest version available at the time of writing):
+
+```
+$ python3.7 -m venv venv
+```
+
+Activate the virtual environment
+
+```
+$ source venv/bin/activate
+```
+
+Install psycopg2 library in the virtual environment. Although there are many libraries
+available for accessing postgreSQL from python, psycopg2 is the most widely used.
+
+```
+$ pip install psycopg2
+```
 
 ### Create deployment package
 
@@ -50,4 +73,4 @@ to get my Lambda function working.
     - [AWS Compute Blog post](https://aws.amazon.com/about-aws/whats-new/2018/11/aws-lambda-supports-python-37/)
 - Resolving "libpq.so: cannot open shared object file" error
     - [AWS forum post](https://forums.aws.amazon.com/thread.jspa?messageID=680192) - this post contains discussion about this issue and a solution suggested by forum participant.
-    - [Github project with steps on building psycopg2 library](https://github.com/jkehler/awslambda-psycopg2) - this Github project is created by the forum participant mentioned in the previous reference. This project lists steps to build postgresql and psycopg2 from source code. Also contains ready-to-use psycopg2 library for python 3.6.
+    - [Github project with steps on building psycopg2 library](https://github.com/jkehler/awslambda-psycopg2) - this Github project is created by the forum participant mentioned in the previous reference. This project provides detailed steps to build postgresql and psycopg2 from source code. If you are using python 3.6, this project contains ready-to-use psycopg2 library built for AWS Lambda.
