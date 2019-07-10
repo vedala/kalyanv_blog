@@ -404,12 +404,19 @@ function.
 
 ### Success!
 
+We taste success on our third attempt. The lamdba function invocation runs
+successfully and returns with the expected results:
+
+```
+Output returned from lambda function invocation
+```
+
 ## References
 - AWS document on how to create deployment package in Python
     - [AWS Lambda Deployment Package in Python](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html)
 - Resolving "invalid ELF header" error
     - [TG4 Solutions blog post - How to resolve an invalid ELF header error quickly](https://tg4.solutions/how-to-resolve-invalid-elf-header-error/)
-    - [Stackoverflow question](https://stackoverflow.com/a/34885155/3137099)
+    - [Stackoverflow answer](https://stackoverflow.com/a/34885155/3137099)
     - [Amazon Compute Blog post](https://aws.amazon.com/blogs/compute/nodejs-packages-in-lambda/) - this post is mainly about node.js, but it talks about building libraries using an EC2 instance.
 - AWS Lamdba supports python 3.7
     - [AWS Compute Blog post](https://aws.amazon.com/about-aws/whats-new/2018/11/aws-lambda-supports-python-37/)
@@ -417,3 +424,5 @@ function.
     - [AWS forum post](https://forums.aws.amazon.com/thread.jspa?messageID=680192) - this post contains discussion about this issue and a solution suggested by forum participant.
     - [Github project with steps on building psycopg2 library](https://github.com/jkehler/awslambda-psycopg2) - this Github project is created by the forum participant mentioned in the previous reference. This project provides detailed steps to build postgresql and psycopg2 from source code. If you are using python 3.6, this project contains ready-to-use psycopg2 library built for AWS Lambda.
 - Links to postgresql and psycopg2 source code downloads
+    - [postgreSQL source downloads](https://www.postgresql.org/ftp/source/v10.0/)
+    - [psycopg2 download page](http://initd.org/psycopg/download/), click on `source package` link to download source code for the latest version
