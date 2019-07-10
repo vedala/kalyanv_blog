@@ -240,21 +240,12 @@ $ sudo yum install postgresql-devel
 The above install python 3.7.3, which is the latest version available at
 the time of writing.
 
-Create the virtual environment:
+As desribed in the previous section, create the virtual environment, activate
+it and install `psycopg2` library:
 
 ```
 $ python3 -m venv venv
-```
-
-Activate the virtual environment:
-
-```
 $ source venv/bin/activate
-```
-
-Install the `psycopg2` library in the virtual environment:
-
-```
 $ pip install psycopg2
 ```
 
@@ -268,7 +259,20 @@ $ scp -r -i <aws-key-file> \
     ec2-user@192.0.2.0:~/venv/lib/python3.7/site-packages/psycopg2 .
 ```
 
-### Invoke lambda function, a different error encountered
+### Create the lambda function and invoke it
+
+Create the lambda function using the `aws lambda create-function` command
+as shown previously and invoke it.
+
+### A different error encountered
+
+Running the lambda function generates the following error:
+
+`Runtime.ImportModuleError: Unable to import module 'mylambda': libpq.so.5: cannot open shared object file: No such file or directory`
+
+While we are still encountering an error, we are no longer running into
+the "invalid ELF header". So we can consider the "invalid ELF header" to be
+resolved and let's work on resolving the new error.
 
 ## 3. Resolving "libpq.so.x cannot open shared object file" error
 
