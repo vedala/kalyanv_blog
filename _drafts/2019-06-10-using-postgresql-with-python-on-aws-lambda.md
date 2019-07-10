@@ -10,6 +10,10 @@ an PostgreSQL RDS instance. It is understandable that AMI image does not include
 libraries such as psycopg2. In this blog post, I describe the steps that I took
 to get my Lambda function working.
 
+If you are familiar with this issue and want to get to the final resolution 
+without reading the whole "story", you can go to section 3 to start implementing
+the steps outlined.
+
 ## 1. Create deployment package as described in AWS documentation
 
 In this section, we follow the instructions as outlined in the AWS documentation
