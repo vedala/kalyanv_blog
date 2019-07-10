@@ -281,7 +281,9 @@ resolved and let's work on resolving the new error.
 Searching for solutions to the "cannot open shared object file" error lead us
 to [this](https://forums.aws.amazon.com/thread.jspa?messageID=680192) post
 on AWS forums. This forum post also provides a link to
-[this](https://github.com/jkehler/awslambda-psycopg2) Github project.
+[this](https://github.com/jkehler/awslambda-psycopg2) Github project (We will
+identify the Github project by its owner's name, Jeff Kehler, in rest of this
+post).
 
 The solution requires us to link the `libpq.so` library statically, which
 requires us to build postgreSQL and psycopg2 from source code.
@@ -302,7 +304,8 @@ $ scp -i <aws-key-file> postgresql-10.0.tar ec2-user@192.0.2.0:~
 $ scp -i <aws-key-file> psycopg2-2.8.3.tar ec2-user@192.0.2.0:~
 ```
 
-SSH into your EC2 instance and follow the steps below.
+SSH into your EC2 instance and follow the steps below (which are outlined in
+the Jeff Kehler project).
 
 ### Compiling postgresql from source code
 
@@ -337,10 +340,69 @@ $ make
 $ make install
 ```
 
+Next, build psycopg2 from source code. Once again, the instructions are
+as outlined in the Jeff Kehler project.
+
 ### Compiling psycopg2 from source code and statically linking
 
-- mention jkehler reference has library build on AMI image that can be downloaded and used directly. But that library is from 2 years ago, so it works with python 3.6 but not python 3.7.
+Extract the files from psycopg2 tar package:
 
+```
+$ tar -xf psycopg2-2.8.3
+```
+
+Enter the extracted psycopg2 source directory:
+
+```
+$ cd psycopg2-2.8.3
+```
+
+Edit `setup.cfg` file and make following changes:
+- set `pg_config` to pg_config file under postgresql source directory that was created there.
+- set static_libpq to 1
+
+On our EC2 instance, the modified lines of setup.cfg look like:
+
+```
+...
+pg_config = /home/ec2-user/postgresql-10.0/bin/pg_config
+...
+static_libpq = 1
+```
+
+Build the library:
+
+```
+$ python3 setup.py build
+```
+
+After completion, a build folder will be created under psycopg-2.8.3.
+Under the build folder there will be folder with name similar to lib.linux-x86_64-3.7.
+Under this folder there will be a folder psycopg2, which is the package we need.
+
+Copy the psycopg2 directory to development machine. Enter the following command
+in your development machine:
+
+```
+$ scp -r -i <aws-key-file> \
+    ec2-user@192.0.2.0:psycopg2-2.8.3/build/lib.linux-x86_64-3.7/psycopg2 .
+```
+
+Please note, the Jeff Kehler project contains ready-to-use psycopg2 library
+build for AMI image. Since the Github repository is about 2 years old, the
+package is built to work with python 3.6. If you are using python 3.6 for
+the lambda function, you can download the psycopg2 directory from the project
+without having to follow steps described in this section. Since we decided
+to use the latest python version (3.7 as of the writing), we had to follow
+the steps outlined in the project and build the library ourselves.
+
+### Create the lambda function and invoke it
+
+As described in the sections above, create the deployment package zip folder,
+create the lambda function using the deployment package and invoke the lambda
+function.
+
+### Success!
 
 ## References
 - AWS document on how to create deployment package in Python
