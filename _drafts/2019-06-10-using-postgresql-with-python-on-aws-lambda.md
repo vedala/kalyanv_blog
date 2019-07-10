@@ -240,7 +240,7 @@ $ sudo yum install postgresql-devel
 The above install python 3.7.3, which is the latest version available at
 the time of writing.
 
-As desribed in the previous section, create the virtual environment, activate
+As desribed in the previous section, create a virtual environment, activate
 it and install `psycopg2` library:
 
 ```
@@ -277,15 +277,70 @@ resolved and let's work on resolving the new error.
 ## 3. Resolving "libpq.so.x cannot open shared object file" error
 
 ### Background
-- references, why this needed
-- mention jkehler reference has library build on AMI image that can be downloaded and used directly. But that library is from 2 years ago, so it works with python 3.6 but not python 3.7.
-- pick postgresql version for source code
-- pick psycopg2 version for source code (why = latest, because working on Mac dev machine)
-- Amazon started supporting python 3.7 in AWS Lambda since November, 2018. So use newer versions of postgresql and psycopg2.
+
+Searching for solutions to the "cannot open shared object file" error lead us
+to [this](https://forums.aws.amazon.com/thread.jspa?messageID=680192) post
+on AWS forums. This forum post also provides a link to
+[this](https://github.com/jkehler/awslambda-psycopg2) Github project.
+
+The solution requires us to link the `libpq.so` library statically, which
+requires us to build postgreSQL and psycopg2 from source code.
+
+We pick the following versions of postgreSQL and psycopg2 to build
+from source code:
+- picked 10.0.0 version of postgreSQL, since this is the version used by Amazon RDS instance
+- picked 2.8.3 version of psycopg2, since this is the latest version available at the time of writing
+
+We download source code for postgreSQL and psycopg2 from the following locations:
+- [postgreSQL source downloads](https://www.postgresql.org/ftp/source/v10.0/)
+- [psycopg2 download page](http://initd.org/psycopg/download/), click on `source package` link to download source code for the latest version
+
+Upload source packages to the EC2 instance:
+
+```
+$ scp -i <aws-key-file> postgresql-10.0.tar ec2-user@192.0.2.0:~
+$ scp -i <aws-key-file> psycopg2-2.8.3.tar ec2-user@192.0.2.0:~
+```
+
+SSH into your EC2 instance and follow the steps below.
 
 ### Compiling postgresql from source code
 
+Extract the files from postgreSQL tar package:
+
+```
+$ tar -xf postgresql-10.0.tar 
+```
+
+Enter the extracted postgresql source directory:
+
+```
+$ cd postgresql-10.0
+```
+
+Run the following three commands:
+
+```
+$ ./configure --prefix `pwd` --without-readline --without-zlib
+```
+
+In the above command, the argument provided to the `prefix` option is the
+absolute path of the postgreSQL source directory. You can type the
+complete path or simply use \`pwd\` since we are already located in that
+directory.
+
+```
+$ make
+```
+
+```
+$ make install
+```
+
 ### Compiling psycopg2 from source code and statically linking
+
+- mention jkehler reference has library build on AMI image that can be downloaded and used directly. But that library is from 2 years ago, so it works with python 3.6 but not python 3.7.
+
 
 ## References
 - AWS document on how to create deployment package in Python
@@ -299,3 +354,4 @@ resolved and let's work on resolving the new error.
 - Resolving "libpq.so: cannot open shared object file" error
     - [AWS forum post](https://forums.aws.amazon.com/thread.jspa?messageID=680192) - this post contains discussion about this issue and a solution suggested by forum participant.
     - [Github project with steps on building psycopg2 library](https://github.com/jkehler/awslambda-psycopg2) - this Github project is created by the forum participant mentioned in the previous reference. This project provides detailed steps to build postgresql and psycopg2 from source code. If you are using python 3.6, this project contains ready-to-use psycopg2 library built for AWS Lambda.
+- Links to postgresql and psycopg2 source code downloads
