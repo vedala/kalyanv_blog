@@ -102,6 +102,7 @@ records from a table and returns them when the lambda function is invoked.
 You need to create a AWS RDS PostgreSQL instance with a database `mydatabase`.
 In this database, a table `employee` needs to be created.
 
+
 ```
 -- Employee table
 
@@ -142,8 +143,8 @@ $
 
 Set environment variables related to VPC for use with `aws` cli command.
 We can avoid this step by directly typing the details into the `aws` command.
-But having these details as environment variables make entering the command
-easier and less tedious.
+But setting these details as environment variables makes entering the
+command less tedious.
 
 ```
 $
@@ -199,11 +200,73 @@ Invoking lambda function again, this time the following error is encountered:
 
 We describe how we resolved this error in the next section.
 
-## 2. Resolving "Invalid ELF header" error
+## 2. Resolving "invalid ELF header" error
 
 ### Background
 
+As suggested [here](https://tg4.solutions/how-to-resolve-invalid-elf-header-error/)
+and [here](https://stackoverflow.com/a/34885155/3137099),
+the "invalid ELF header" error happens due to a mismatch between
+the machine where the library was installed and the machine it is being
+executed. We installed the `psycopg2` library on a Mac, whereas the execution
+environment is AWS Lambda's environment, which is the Amazon Linux AMI.
+
+To remove the mismatch, we need to install the `psycopg2` library in the same
+envionment as the AWS Lambda function run in. The simplest approach is to spin
+up an EC2 instance and install `psycopg2` library in a virtual environment there.
+Described below are steps we followed to do this.
+
+### Create an EC2 instance and connect to it
+
+Launch an EC2 instance on AWS and connect to the instance (replace with ip
+address of your instance):
+
+```
+$ ssh -i <aws-key-file> ec2-user@192.0.2.0
+```
+
 ### Setting up virtual environment on an EC2 instance
+
+Python3 is not available on Amazon Linux, so we need to install it. The following
+commands will install python3 and other dependencies needed for creating
+a virtual environment and installing `pyscopg2` within the virtual environment:
+
+```
+$ sudo yum install python3
+$ sudo yum install gcc python-setuptools python-devel python3-devel
+$ sudo yum install postgresql-devel
+```
+
+The above install python 3.7.3, which is the latest version available at
+the time of writing.
+
+Create the virtual environment:
+
+```
+$ python3 -m venv venv
+```
+
+Activate the virtual environment:
+
+```
+$ source venv/bin/activate
+```
+
+Install the `psycopg2` library in the virtual environment:
+
+```
+$ pip install psycopg2
+```
+
+We now have the `psycopg2` package file we need in the virtual environment. We
+need to copy the package from the EC2 instance to the development machine. Run
+the following command on your development machine to copy the package directory
+to the local machine:
+
+```
+$ scp -r -i <aws-key-file> \
+    ec2-user@192.0.2.0:~/venv/lib/python3.7/site-packages/psycopg2 .
+```
 
 ### Invoke lambda function, a different error encountered
 
