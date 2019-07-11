@@ -163,7 +163,10 @@ $ zip -r ../my_lambda.zip .
 Set environment variables related to RDS database instance
 
 ```
-$
+$ export RDS_HOST=<database host url>
+$ export RDS_USERNAME=<username>
+$ export RDS_USER_PWD=<password>
+$ export RDS_DB_NAME=mydatabase
 ```
 
 Set environment variables related to VPC for use with `aws` cli command.
@@ -172,7 +175,9 @@ But setting these details as environment variables makes entering the
 command less tedious.
 
 ```
-$
+$ export role_arn=<AWS role arn>
+$ export subnet_ids="subnet-xxxxxx,subnet-xxxxxx,..."  # comma separated list
+$ export sec_group_id=<security group id>
 ```
 
 Create the lambda function:
