@@ -10,10 +10,6 @@ an PostgreSQL RDS instance. It is understandable that AMI image does not include
 libraries such as psycopg2. In this blog post, I describe the steps that I took
 to get my Lambda function working.
 
-If you are familiar with this issue and want to get to the final resolution 
-without reading the whole "story", you can go to section 3 to start implementing
-the steps outlined.
-
 ## 1. Create deployment package as described in AWS documentation
 
 In this section, we follow the instructions as outlined in the AWS documentation
@@ -87,8 +83,8 @@ logger.info("SUCCESS: Connection to RDS Postgres instance succeeded")
 
 def handler(event, context):
 
-    query = """select name, salary
-            from mydatabase.employee
+    query = """select id, name, job_title
+            from employee
             order by 1"""
 
     with conn.cursor() as cur:
@@ -110,7 +106,22 @@ In this database, a table `employee` needs to be created.
 ```
 -- Employee table
 
+CREATE TABLE employee (
+  id        INTEGER     NOT NULL,
+  name      VARCHAR(40) NOT NULL,
+  job_title VARCHAR(40) NOT NULL,
+  PRIMARY KEY (id)
+);
 
+```
+
+Insert a few rows into the `employee` table:
+
+```
+INSERT INTO employee(id, name, job_title) VALUES
+    (1, 'Jack', 'Software Engineer'),
+    (2, 'Jill', 'Senior Software Engineer'),
+    (3, 'Joe', 'Engineering Manager');
 ```
 
 ### Create deployment package
@@ -412,7 +423,14 @@ We taste success on our third attempt. The lamdba function invocation runs
 successfully and returns with the expected results:
 
 ```
-Output returned from lambda function invocation
+{
+    "statusCode": 200,
+    "body": [
+                [1, "Jack", "Software Engineer"],
+                [2, "Jill", "Senior Software Engineer"],
+                [3, "Joe", "Engineering Manager"]
+            ]
+}
 ```
 
 ## References
