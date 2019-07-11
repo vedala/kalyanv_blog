@@ -7,18 +7,27 @@ While working on a personal project for setting up a basic data pipeline, descri
 I ran into an issue where psycopg2 library was not available
 on AWS Lambda. My lambda function uses this library to access data stored in
 an PostgreSQL RDS instance. It is understandable that AMI image does not include
-libraries such as psycopg2. In this blog post, I describe the steps that I took
-to get my Lambda function working.
+libraries such as psycopg2, it is the lambda function developer's job to include
+any dependency libraries that the lambda function needs. AWS provides documentation
+[here](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html)
+on deploying lambda functions with dependency libraries that are not
+available in the AMI image.
+
+In this blog post, I start with the method outlined
+in the AWS documentation on Lambda deployment package, describe issues
+encountered and the steps I took to resolve the issues.
 
 ## 1. Create deployment package as described in AWS documentation
 
 In this section, we follow the instructions as outlined in the AWS documentation
-[here](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html). We use the virtual environment method.
+mentioned above.  We use the virtual environment method.
 
 ### Setup python virtual environment on development machine
 
-On your development machine (Mac in our case), create a python virtual environment (we are
-using python 3.7.3, the latest version available at the time of writing):
+On your development machine (Mac in our case), create a python virtual environment
+(we are using python 3.7.3, the latest version available at the time of writing).
+In this post, we are assuming you will create the virtual environment directory
+under your home directory.
 
 ```
 $ python3.7 -m venv venv
@@ -45,7 +54,7 @@ Create a directory that will be used to hold the lambda script and dependency li
 $ mkdir pypg_lambda
 ```
 
-In the directory, create the lambda script:
+In the directory, create a file to hold your lambda script:
 
 ```
 $ cd pypg_lambda
@@ -97,7 +106,7 @@ def handler(event, context):
 ```
 
 The above file is an example of a very simple lambda function that fetches
-records from a table and returns them when the lambda function is invoked.
+rows from a table and returns them when the lambda function is invoked.
 
 You need to create a AWS RDS PostgreSQL instance with a database `mydatabase`.
 In this database, a table `employee` needs to be created.
@@ -132,17 +141,18 @@ Enter `pypg_lambda` directory (if not already there):
 $ cd pypg_lambda
 ```
 
-Copy the psycopg2 installed package to `pypg_lambda` directory:
+Copy the psycopg2 package installed within the virtual environment to
+`pypg_lambda` directory:
 
 ```
 $ cp -r ~/venv/lib/python3.7/site-packages/psycopg2 .
 ```
 
-In the above command, we created the virtual environment in the home directory
+As mentioned previously, we created the virtual environment in the home directory
 of our development machine. Modify the `cp` command to suit your directory's
 location.
 
-Create the deployment package:
+Create the deployment package zip archive:
 
 ```
 $ zip -r ../my_lambda.zip .
@@ -192,8 +202,8 @@ Following error is encountered on invocation of the lambda function:
 
 `Unable to import module 'mylambda': No module named 'psycopg2._psycopg'`
 
-The psycopg2 folder under the deployment package folder contains the following
-library:
+The psycopg2 folder under the deployment package folder on our machine contains
+the following library:
 
 `_psycopg.cpython-37m-darwin.so`
 
@@ -205,11 +215,12 @@ mv _psycopg.cpython-37m-darwin.so _psycopg.so
 ```
 
 And redeploy the lambda function:
+- Copy the psycopg2 directory from the virtual environment to `pypg_lambda` directory
 - Create a new zip archive from the deployment package folder `pypg_lambda`
 - Delete lambda function using AWS interface
 - Use `aws lambda create-function` to deploy using the updated deployment package
 
-Invoking lambda function again, this time the following error is encountered:
+Invoked lambda function again, this time the following error is encountered:
 
 `Runtime.ImportModuleError: Unable to import module 'mylambda': /var/task/psycopg2/_psycopg.so: invalid ELF header`
 
@@ -227,13 +238,13 @@ executed. We installed the `psycopg2` library on a Mac, whereas the execution
 environment is AWS Lambda's environment, which is the Amazon Linux AMI.
 
 To remove the mismatch, we need to install the `psycopg2` library in the same
-envionment as the AWS Lambda function run in. The simplest approach is to spin
+envionment as the AWS Lambda function runs in. The simplest approach is to spin
 up an EC2 instance and install `psycopg2` library in a virtual environment there.
 Described below are steps we followed to do this.
 
 ### Create an EC2 instance and connect to it
 
-Launch an EC2 instance on AWS and connect to the instance (replace with ip
+Launch an EC2 instance on AWS and connect to the instance (replace with the ip
 address of your instance):
 
 ```
@@ -252,10 +263,10 @@ $ sudo yum install gcc python-setuptools python-devel python3-devel
 $ sudo yum install postgresql-devel
 ```
 
-The above install python 3.7.3, which is the latest version available at
+The above installs python 3.7.3, which is the latest version available at
 the time of writing.
 
-As desribed in the previous section, create a virtual environment, activate
+As described in the previous section, create a virtual environment, activate
 it and install `psycopg2` library:
 
 ```
@@ -264,14 +275,28 @@ $ source venv/bin/activate
 $ pip install psycopg2
 ```
 
-We now have the `psycopg2` package file we need in the virtual environment. We
-need to copy the package from the EC2 instance to the development machine. Run
-the following command on your development machine to copy the package directory
-to the local machine:
+We now have the `psycopg2` package file we need in the virtual environment. You
+need to copy the package from the EC2 instance to your development machine.
+
+Clean up you deployment package working directory `pypg_lambda`:
+
+```
+$ cd pypg_lambda
+$ rm -r psycopg2
+```
+
+Run the following command on your development machine to copy the package
+directory to the local machine:
 
 ```
 $ scp -r -i <aws-key-file> \
     ec2-user@192.0.2.0:~/venv/lib/python3.7/site-packages/psycopg2 .
+```
+
+Create zip archive:
+
+```
+$ zip -r ../my_lambda.zip .
 ```
 
 ### Create the lambda function and invoke it
@@ -286,8 +311,8 @@ Running the lambda function generates the following error:
 `Runtime.ImportModuleError: Unable to import module 'mylambda': libpq.so.5: cannot open shared object file: No such file or directory`
 
 While we are still encountering an error, we are no longer running into
-the "invalid ELF header". So we can consider the "invalid ELF header" to be
-resolved and let's work on resolving the new error.
+the "invalid ELF header". So we can consider the "invalid ELF header" error to
+be resolved and let's work on resolving the new error.
 
 ## 3. Resolving "libpq.so.x cannot open shared object file" error
 
@@ -296,12 +321,12 @@ resolved and let's work on resolving the new error.
 Searching for solutions to the "cannot open shared object file" error lead us
 to [this](https://forums.aws.amazon.com/thread.jspa?messageID=680192) post
 on AWS forums. This forum post also provides a link to
-[this](https://github.com/jkehler/awslambda-psycopg2) Github project (We will
-identify the Github project by its owner's name, Jeff Kehler, in rest of this
+[this](https://github.com/jkehler/awslambda-psycopg2) Github project (we will
+refer to the Github project by its owner's name, Jeff Kehler, in rest of this
 post).
 
 The solution requires us to link the `libpq.so` library statically, which
-requires us to build postgreSQL and psycopg2 from source code.
+in turn requires us to build postgreSQL and psycopg2 from source code.
 
 We pick the following versions of postgreSQL and psycopg2 to build
 from source code:
@@ -319,8 +344,12 @@ $ scp -i <aws-key-file> postgresql-10.0.tar ec2-user@192.0.2.0:~
 $ scp -i <aws-key-file> psycopg2-2.8.3.tar ec2-user@192.0.2.0:~
 ```
 
-SSH into your EC2 instance and follow the steps below (which are outlined in
-the Jeff Kehler project).
+Once again, we will be working in the home directory on the EC2 instance. The
+above commands copied the source code tar archies to EC2 instance's home
+directory.
+
+SSH into your EC2 instance and follow the steps below (as outlined in the Jeff
+Kehler project).
 
 ### Compiling postgresql from source code
 
@@ -343,9 +372,9 @@ $ ./configure --prefix `pwd` --without-readline --without-zlib
 ```
 
 In the above command, the argument provided to the `prefix` option is the
-absolute path of the postgreSQL source directory. You can type the
-complete path or simply use \`pwd\` since we are already located in that
-directory.
+absolute path of the postgreSQL source directory. You can type the path
+(/home/ec2-user/postgresql-10.0) or simply use \`pwd\` since we are already
+located in that directory.
 
 ```
 $ make
@@ -373,7 +402,7 @@ $ cd psycopg2-2.8.3
 ```
 
 Edit `setup.cfg` file and make following changes:
-- set `pg_config` to pg_config file under postgresql source directory that was created there.
+- set `pg_config` to pg_config file under postgresql source directory that was created there when postgresql was built from source code
 - set static_libpq to 1
 
 On our EC2 instance, the modified lines of setup.cfg look like:
@@ -395,25 +424,33 @@ After completion, a build folder will be created under psycopg-2.8.3.
 Under the build folder there will be folder with name similar to lib.linux-x86_64-3.7.
 Under this folder there will be a folder psycopg2, which is the package we need.
 
-Copy the psycopg2 directory to development machine. Enter the following command
-in your development machine:
+Go back to your development machine and clean up the previous psycopg2
+directory:
+
+```
+$ cd pypg_lambda
+$ rm -r psycopg2
+```
+
+Copy the psycopg2 directory from the EC2 instance to your development machine.
+Enter the following command on your development machine:
 
 ```
 $ scp -r -i <aws-key-file> \
     ec2-user@192.0.2.0:psycopg2-2.8.3/build/lib.linux-x86_64-3.7/psycopg2 .
 ```
 
-Please note, the Jeff Kehler project contains ready-to-use psycopg2 library
+Note: the Jeff Kehler project contains ready-to-use psycopg2 library
 build for AMI image. Since the Github repository is about 2 years old, the
 package is built to work with python 3.6. If you are using python 3.6 for
 the lambda function, you can download the psycopg2 directory from the project
-without having to follow steps described in this section. Since we decided
-to use the latest python version (3.7 as of the writing), we had to follow
-the steps outlined in the project and build the library ourselves.
+without having to build postgresql and pyscopg2 from source code. Since we
+decided to use the latest python version (3.7 as of this writing), we had to
+build the library from source code ourselves.
 
 ### Create the lambda function and invoke it
 
-As described in the sections above, create the deployment package zip folder,
+As described in the sections above, create the deployment package zip archive,
 create the lambda function using the deployment package and invoke the lambda
 function.
 
