@@ -30,13 +30,13 @@ In this post, we are assuming you will create the virtual environment directory
 under your home directory.
 
 ```
-$ python3.7 -m venv venv
+$ python3.7 -m venv my_venv
 ```
 
 Activate the virtual environment
 
 ```
-$ source venv/bin/activate
+$ source my_venv/bin/activate
 ```
 
 Install psycopg2 library in the virtual environment. Although there are many libraries
@@ -148,7 +148,7 @@ Copy the psycopg2 package installed within the virtual environment to
 `pypg_lambda` directory:
 
 ```
-$ cp -r ~/venv/lib/python3.7/site-packages/psycopg2 .
+$ cp -r ~/my_venv/lib/python3.7/site-packages/psycopg2 .
 ```
 
 As mentioned previously, we created the virtual environment in the home directory
@@ -278,8 +278,8 @@ As described in the previous section, create a virtual environment, activate
 it and install `psycopg2` library:
 
 ```
-$ python3 -m venv venv
-$ source venv/bin/activate
+$ python3 -m venv my_venv
+$ source my_venv/bin/activate
 $ pip install psycopg2
 ```
 
@@ -298,7 +298,7 @@ directory to the local machine:
 
 ```
 $ scp -r -i <aws-key-file> \
-    ec2-user@192.0.2.0:~/venv/lib/python3.7/site-packages/psycopg2 .
+    ec2-user@192.0.2.0:~/my_venv/lib/python3.7/site-packages/psycopg2 .
 ```
 
 Create zip archive:
