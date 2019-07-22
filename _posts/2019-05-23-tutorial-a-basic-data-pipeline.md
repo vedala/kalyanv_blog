@@ -191,4 +191,4 @@ _**Deployment**_
 
 The project is deployed at the following location:
 
-[Data Engineering Tutorial - Analysis](http://dataeng-walmart.s3-website-us-east-1.amazonaws.com/)
+[Data Pipeline Tutorial - Demo](http://dataeng-walmart.s3-website-us-east-1.amazonaws.com/)
