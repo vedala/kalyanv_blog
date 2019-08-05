@@ -7,7 +7,7 @@ title: Projects
 ---
 &nbsp;
 
-## Data Pipeline Tutorial
+## Data Pipeline Demo Project
 
 I implemented this project to learn basic data engineering skills.
 The project implements a typical data pipeline, involving extracting
