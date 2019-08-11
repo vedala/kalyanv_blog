@@ -64,7 +64,7 @@ This command generates the site files and runs a local web server at
 
 You can use a theme to improve your site's presentation. There is a wide selection
 of themes to choose from. You can get started with `minima` theme which is provided
-by Jekyll. You can install theme gem using the following command:
+by Jekyll. You can install `minima` gem using the following command:
 ```
 $ gem install minima
 ```
