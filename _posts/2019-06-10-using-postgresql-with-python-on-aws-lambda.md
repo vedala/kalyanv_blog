@@ -241,14 +241,15 @@ We describe how we resolved this error in the next section.
 As suggested [here](https://tg4.solutions/how-to-resolve-invalid-elf-header-error/)
 and [here](https://stackoverflow.com/a/34885155/3137099),
 the "invalid ELF header" error happens due to a mismatch between
-the machine where the library was installed and the machine it is being
-executed. We installed the `psycopg2` library on a Mac, whereas the execution
-environment is AWS Lambda's environment, which is the Amazon Linux AMI.
+the machine where the lambda function deployment package is created and the machine
+where the lambda function is executed. We built the deployment package on a Mac,
+whereas the execution environment is AWS Lambda's environment, which is the
+Amazon Linux AMI.
 
-To remove the mismatch, we need to install the `psycopg2` library in the same
+To remove the mismatch, we need to create the deployment package in the same
 envionment as the AWS Lambda function runs in. The simplest approach is to spin
-up an EC2 instance and install `psycopg2` library in a virtual environment there.
-Described below are steps we followed to do this.
+up an EC2 instance, install `psycopg2` library in a virtual environment there.
+Described below are steps we followed to do this:
 
 ### Create an EC2 instance and connect to it
 
@@ -353,7 +354,7 @@ $ scp -i <aws-key-file> psycopg2-2.8.3.tar ec2-user@192.0.2.0:~
 ```
 
 Once again, we will be working in the home directory on the EC2 instance. The
-above commands copied the source code tar archies to EC2 instance's home
+above commands copied the source code tar archives to EC2 instance's home
 directory.
 
 SSH into your EC2 instance and follow the steps below (as outlined in the Jeff
@@ -428,7 +429,7 @@ Build the library:
 $ python3 setup.py build
 ```
 
-After completion, a build folder will be created under psycopg-2.8.3.
+After completion, a build directory will be created under the psycopg-2.8.3 directory.
 Under the build folder there will be folder with name similar to lib.linux-x86_64-3.7.
 Under this folder there will be a folder psycopg2, which is the package we need.
 
@@ -490,7 +491,7 @@ successfully and returns with the expected results:
 - Accessing database from a Lambda function
     - [AWS Lambda tutorial](https://docs.aws.amazon.com/lambda/latest/dg/vpc-rds.html)
 - Resolving "libpq.so: cannot open shared object file" error
-    - [AWS forum post](https://forums.aws.amazon.com/thread.jspa?messageID=680192) - this post contains discussion about this issue and a solution suggested by forum participant.
+    - [AWS forum post](https://forums.aws.amazon.com/thread.jspa?messageID=680192) - this post contains discussion about this issue and a solution suggested by a forum participant.
     - [Github project with steps on building psycopg2 library](https://github.com/jkehler/awslambda-psycopg2) - this Github project is created by the forum participant mentioned in the previous reference. This project provides detailed steps to build postgresql and psycopg2 from source code. If you are using python 3.6, this project contains ready-to-use psycopg2 library built for AWS Lambda.
 - Links to postgresql and psycopg2 source code downloads
     - [postgreSQL source downloads](https://www.postgresql.org/ftp/source/v10.0/)
