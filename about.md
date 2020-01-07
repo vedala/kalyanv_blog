@@ -4,5 +4,5 @@ title: About
 ---
 # About Me
 
-Hi, I am Kalyan Vedala. I am software engineer with interest in data
-engineering and devops/infrastructure engineering.
+Hi, I am Kalyan Vedala. I am software engineer with interest in DevOps,
+backend development and data engineering.
