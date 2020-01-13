@@ -34,7 +34,7 @@ The data provided is historical sales data for 45 Walmart stores for years
 
 The primary data is weekly department-wise sales amount for each store.
 Another piece of information included is whether a given week is a holiday
-week or a reguler week. For the purpose of this data, only the following four
+week or a regular week. For the purpose of this data, only the following four
 holidays are considered: Super Bowl, Labor Day, Thanksgiving and
 Christmas.
 
