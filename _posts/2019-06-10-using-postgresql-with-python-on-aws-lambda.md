@@ -3,7 +3,7 @@ title: Using PostgreSQL With Python on AWS Lambda
 ---
 While working on a personal project for setting up a basic data pipeline, described
 [here]({{ site.baseurl }}
-{% link _posts/2018-09-12-build-a-blog-using-jekyll-and-deploy-to-github-pages-and-set-custom-domain.md %}),
+{% link _posts/2019-05-23-tutorial-a-basic-data-pipeline.md %}),
 I ran into an issue where psycopg2 library was not available
 on AWS Lambda. My lambda function uses this library to access data stored in
 an PostgreSQL RDS instance. It is understandable that AMI image does not include
