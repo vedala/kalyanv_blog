@@ -29,13 +29,24 @@ else:
     - Truth value testing: https://docs.python.org/3/library/stdtypes.html#truth-value-testing
     - https://stackoverflow.com/a/10243323/3137099
 
-## raw string notation
 ## Search
-In this post, I wanted to write about the simple regular expression usage
-described above.
 
-Although Python's `re` module has lots of funcnality, I would like to mention
-the `search` function
+- match anywhere in string
+- match multiple
+
+We can still use in simple conditional, as follows:
+```
+if re.search("foo", "this string has foo bar baz"):
+    print("match found")
+else:
+    print("match not found")
 
 ## Mention compile
+In this post, I wanted to write about the simple regular expression usage
+described above.
 - Describe compile and its benefits but do not include any code
+
+## References
+- stack overflow discussion
+- truthy value
+- regular expression blog
