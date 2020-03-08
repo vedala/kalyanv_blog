@@ -12,7 +12,7 @@ defaults:
       author: *anchor_author
 disqus:
     shortname: kalyanvblog
-description: I blog here about software development topics related to projects and tools I happen to be working on currently.
+description: I blog here about software development topics related to projects and tools I happen to be currently working on.
 github_username: vedala
 twitter_username: skvedala
 rss: rss
