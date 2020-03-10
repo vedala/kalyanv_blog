@@ -6,7 +6,7 @@ programs. Most of the time, my needs are simple, such as:
 - check if a string contains a word, where the word may have first letter capitalized
 - check if a string contains a valid opening HTML tag (e.g. <div name="someDiv">)
 
-## Using in a Conditional
+## Using in a conditional
 
 In Python, regular expression functionality is provided by `re` module. And the most
 basic function to perform regular expression matching is the `match()` function.
@@ -15,22 +15,22 @@ basic function to perform regular expression matching is the `match()` function.
 discuss in this post). The first argument is the *pattern* we are search for and
 the second argument is the *string* we want to search in.
 
+`match()` looks for the *pattern* at the beginning of the *string*.
+
 ```
 import re
 
-if re.match("[aA]bcd", "abcdefgh"):
+if re.match("[lL]orem", "Lorem ipsum dolor sit amet."):
     print("matched")
 else:
     print("not matched")
 ```
 
-- re.match(), returns `None` if there is no match.
-- returns a `match object` if there is a match
-- Since match objects always have a boolean value of true. And since, `None` is equivalent to boolean value false, we can use `re.match()` directly in a conditional as shown above.
-- reference: https://docs.python.org/3/library/re.html#match-objects
-- Since match object is a class instance, the class definition guarantees that a True is always returned (in the above link). Also see following links:
-    - Truth value testing: https://docs.python.org/3/library/stdtypes.html#truth-value-testing
-    - https://stackoverflow.com/a/10243323/3137099
+The above conditional works because:
+- `match()` returns `None` if there is no match
+- returns a `match` object if there is a match
+- `match` objects always return a truthy value of `True`
+- Since `None` is equivalent to boolean value `False`, we can use `re.match()` directly in a conditional as shown above.
 
 ## Search
 
@@ -70,3 +70,7 @@ result = re.match(pattern, string)
 - stack overflow discussion
 - truthy value
 - regular expression blog
+- reference: https://docs.python.org/3/library/re.html#match-objects
+- Since match object is a class instance, the class definition guarantees that a True is always returned (in the above link). Also see following links:
+    - Truth value testing: https://docs.python.org/3/library/stdtypes.html#truth-value-testing
+    - https://stackoverflow.com/a/10243323/3137099
