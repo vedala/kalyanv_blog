@@ -2,19 +2,22 @@
 ---
 
 Once in a while, I find the need to use regular expressions in Python
-programs.
-
-Most of the time, my needs are simple, such as:
-< two simple examples>
-
-## Basic string match without using regular expressions
-- `in` operator
-- `lower`
-- `==` and `!=`
+programs. Most of the time, my needs are simple, such as:
+- check if a string contains a word, where the word may have first letter capitalized
+- check if a string contains a valid opening HTML tag (e.g. <div name="someDiv">)
 
 ## Using in a Conditional
 
+In Python, regular expression functionality is provided by `re` module. And the most
+basic function to perform regular expression matching is the `match()` function.
+
+`match()` accepts two arguments (and an optional third argument which we will not
+discuss in this post). The first argument is the *pattern* we are search for and
+the second argument is the *string* we want to search in.
+
 ```
+import re
+
 if re.match("[aA]bcd", "abcdefgh"):
     print("matched")
 else:
@@ -41,10 +44,27 @@ if re.search("foo", "this string has foo bar baz"):
 else:
     print("match not found")
 
-## Mention compile
+## Basic string match without using regular expressions
+- `in` operator
+- `lower`
+- `==` and `!=`
+
+## Additional considerations
+- Compile
+- raw strings and escaping
 In this post, I wanted to write about the simple regular expression usage
 described above.
-- Describe compile and its benefits but do not include any code
+<Describe compile and its benefits but do not include any code>
+The sequence
+
+```
+prog = re.compile(pattern)
+result = prog.match(string)
+```
+is equivalent to
+```
+result = re.match(pattern, string)
+```
 
 ## References
 - stack overflow discussion
