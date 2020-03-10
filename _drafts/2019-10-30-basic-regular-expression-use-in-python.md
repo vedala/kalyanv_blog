@@ -34,15 +34,25 @@ The above conditional works because:
 
 ## Search
 
+While `match()` may satisfy many pattern search requirements, it has one obvious
+limitation - `match()` looks for *pattern* only at the beginning of the *string*.
+The `re` module provides the function `search()` which overcomes this limitation.
+Function `search()` looks for the *pattern* anywhere in the *string*.
 - match anywhere in string
 - match multiple
 
-We can still use in simple conditional, as follows:
+We can still use `search()` in a simple conditional, as follows:
 ```
-if re.search("foo", "this string has foo bar baz"):
+if re.search("[dD]olor", "Lorem ipsum dolor sit amet."):
     print("match found")
 else:
     print("match not found")
+```
+
+Here, we are looking for the *pattern* that occurs anywhere in the *string*. If
+the *pattern* is present, the `if` condition will evaluate to `True`. If there
+is no match then `search()` returns `None` which evaluates to truthy value of `False`.
+
 
 ## Basic string match without using regular expressions
 - `in` operator
