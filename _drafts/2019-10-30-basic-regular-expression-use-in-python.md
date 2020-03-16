@@ -1,7 +1,7 @@
 ---
 ---
 
-Once in a while, I find the need to use regular expressions in Python
+Every once in a while, I find the need to use regular expressions in Python
 programs. Most of the time, my needs are simple, such as: check if a string
 contains a word, where the word may have first letter capitalized.
 
@@ -58,11 +58,11 @@ is no match then `search()` returns `None` which evaluates to truthy value of `F
 While this post is about using regular expressions, simple searches can be done
 using string operations:
 
-### `in` operator
+<ins>`in` operator</ins>
 
-### string.lower()
+<ins>string.lower()</ins>
 
-### comparison operators
+<ins>comparison operators</ins>
 - `==` and `!=`
 
 ## Additional considerations
@@ -81,12 +81,3 @@ is equivalent to
 ```
 result = re.match(pattern, string)
 ```
-
-## References
-- stack overflow discussion
-- truthy value
-- regular expression blog
-- reference: https://docs.python.org/3/library/re.html#match-objects
-- Since match object is a class instance, the class definition guarantees that a True is always returned (in the above link). Also see following links:
-    - Truth value testing: https://docs.python.org/3/library/stdtypes.html#truth-value-testing
-    - https://stackoverflow.com/a/10243323/3137099
