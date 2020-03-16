@@ -48,9 +48,10 @@ else:
     print("match not found")
 ```
 
-Here, we are looking for the pattern that occurs anywhere in the string. If
-the pattern is present, the `if` condition will evaluate to `True`. If there
-is no match then `search()` returns `None` which evaluates to truthy value of `False`.
+Here, we are looking for the pattern that occurs anywhere in the string, not just at
+the beginning. If the pattern is present, the `if` condition will evaluate to `True`.
+If there is no match then `search()` returns `None` which evaluates to truthy
+value of `False`.
 
 
 ## Basic string match without using regular expressions
@@ -58,26 +59,23 @@ is no match then `search()` returns `None` which evaluates to truthy value of `F
 While this post is about using regular expressions, simple searches can be done
 using string operations:
 
-<ins>`in` operator</ins>
+<ins>in operator</ins>
+```
+if "dolor" in "Lorem ipsum dolor sit amet.":
+    print("match found")
+```
 
 <ins>string.lower()</ins>
+```
+if "dolor" in "Lorem ipsum DOLOR sit amet.".lower():
+    print("match found")
+```
 
 <ins>comparison operators</ins>
-- `==` and `!=`
+- "==" and "!==" operators can be used to compare equivalence of two strings.
 
-## Additional considerations
-- Compile
-- raw strings and escaping
-In this post, I wanted to write about the simple regular expression usage
-described above.
-<Describe compile and its benefits but do not include any code>
-The sequence
+## Conclusion
 
-```
-prog = re.compile(pattern)
-result = prog.match(string)
-```
-is equivalent to
-```
-result = re.match(pattern, string)
-```
+In this post, I wanted to write about basic usage of regular expressions within
+python programs. Python's `re` module provides a lot more functionality than
+described here.
