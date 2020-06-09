@@ -341,7 +341,7 @@ in turn requires us to build postgreSQL and psycopg2 from source code.
 We pick the following versions of postgreSQL and psycopg2 to build
 from source code:
 - picked 10.0.0 version of postgreSQL, since this is the version used by Amazon RDS instance
-- picked 2.8.3 version of psycopg2, since this is the latest version available at the time of writing
+- picked 2.8.3 version of psycopg2, since this is the latest version available at the time of writing. I like to start with the latest version and see if it works. Then work backwards to go to older version if more recent versions don't work.
 
 We download source code for postgreSQL and psycopg2 from the following locations:
 - [postgreSQL source downloads](https://www.postgresql.org/ftp/source/v10.0/)
