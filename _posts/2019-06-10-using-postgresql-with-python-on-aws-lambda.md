@@ -264,7 +264,8 @@ $ ssh -i <aws-key-file> ec2-user@192.0.2.0
 
 Python3 is not available on Amazon Linux, so we need to install it. The following
 commands will install python3 and other dependencies needed for creating
-a virtual environment and installing `pyscopg2` within the virtual environment:
+a virtual environment and installing `pyscopg2` within the virtual environment.
+We are also installing the C compiler here, which we need in a later step:
 
 ```
 $ sudo yum install python3
