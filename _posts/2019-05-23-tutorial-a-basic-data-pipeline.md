@@ -18,7 +18,7 @@ These steps are:
 ## Data Source
 
 To find datasets that I could use for my demo data engineering project,
-I started with a simple Google search and found
+I started with a simple internet search and found
 [this post](https://www.springboard.com/blog/free-public-data-sets-data-science-project/)
 among several useful hits.
 
