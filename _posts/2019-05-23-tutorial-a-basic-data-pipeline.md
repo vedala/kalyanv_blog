@@ -131,7 +131,7 @@ transform ability.
 Why Stitch
 
   - offers a free plan. The only cloud-based ETL tool I found that offers a free plan.
-  - once I started using Stitch, I found the service to be execellent.  The free account allows only one destination to be added. This was adequate for my needs.
+  - once I started using Stitch, I found the service to be excellent.  The free account allows only one destination to be added. This was adequate for my needs.
 
 Setting up data source in Stitch
   - as mentioned above, after the cleaning and preparation step, the cleaned data files are uploaded to S3
