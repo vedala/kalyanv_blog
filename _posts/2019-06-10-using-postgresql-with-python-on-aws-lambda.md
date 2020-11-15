@@ -189,7 +189,7 @@ Create the lambda function:
 $ aws lambda create-function --region "us-east-1" \
     --function-name "mylambda"       \
     --zip-file fileb://mylambda.zip  \
-    --handler "mylambda.handler"     \
+    --handler "my_lambda.handler"     \
     --role "${role_arn}"             \
     --runtime "python3.7"            \
     --timeout 60                     \
