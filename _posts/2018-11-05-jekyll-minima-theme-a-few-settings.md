@@ -6,7 +6,7 @@ This post is a follow-up of my earlier
  about building a jekyll site.
 
 In this post, I will describe a few things that I modified on my site. For example,
-the footer show site title twice, I add a `_config.yml` setting to show blog author
+the footer shows site title twice - I add a `_config.yml` setting to show blog author
 name instead of one of the site titles.
 
 ## Add site description
