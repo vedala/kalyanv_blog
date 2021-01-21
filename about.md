@@ -4,5 +4,4 @@ title: About
 ---
 # About Me
 
-Hi, I am Kalyan Vedala. I am an engineer based in based in San Francisco Bay Area.
-My interests include CI/CD, DevOps, and distributed systems.
+Hi, I am Kalyan Vedala. I am a freelance AWS Developer based in the San Francisco Bay Area.
