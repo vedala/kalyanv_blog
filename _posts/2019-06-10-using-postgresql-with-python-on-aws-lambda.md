@@ -457,7 +457,7 @@ the lambda function, you can download the psycopg2 directory from the project
 without having to build postgresql and pyscopg2 from source code. Since we
 decided to use the latest python version (3.7 as of this writing), we had to
 build the library from source code ourselves.
-(**Update, February 2021: Jeff Kehler project now contains pre-built psycopg2 libraries
+(**Update**, February 2021: Jeff Kehler project now contains pre-built psycopg2 libraries
 for python 3.7 and 3.8 now.)
 
 ### Create the lambda function and invoke it
