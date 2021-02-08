@@ -15,3 +15,7 @@ title: Deploying an application to AWS using AWS CLI, Part 2 - Level-1
     - Allow both console and programmatic access for the user
 
 ## Install AWS CLI
+- <A few points>
+    - Installing on macOS for a single user
+    - Installing version 2
+    - Used this guide as reference [AWS CLI Users Guide](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
