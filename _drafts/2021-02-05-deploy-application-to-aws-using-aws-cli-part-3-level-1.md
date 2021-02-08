@@ -2,8 +2,30 @@
 title: Deploying an application to AWS using AWS CLI, Part 2 - Level-1
 ---
 
-## Application
+## Create Security Group
 
-## AWS Root Account and IAM User
+## Create Key Pair
 
-## Install AWS CLI
+## Obtain Image ID
+
+## Launch an Instance
+
+## Install Base Software
+
+## Initialize PostgreSQL Database
+
+## Install Application
+
+## Supervisor Setup
+
+## Nginx Setup
+
+## Allocate and Associate Elastic IP Address
+
+## Register Domain
+
+## Create Hosted Zone
+
+## Create Record Sets
+
+## Get Delegation Set and Update Nameserver Records with Domain Registrar
