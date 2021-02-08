@@ -19,3 +19,21 @@ title: Deploying an application to AWS using AWS CLI, Part 2 - Level-1
     - Installing on macOS for a single user
     - Installing version 2
     - Used this guide as reference [AWS CLI Users Guide](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
+- Installation Steps
+    - Create an XL file to specify the location where we want aws-cli to be installed
+    - Download install package
+```
+curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+```
+    - Run installer command, specify the XML created in the previous steps:
+```
+installer -pkg AWSCLIV2.pkg \
+    -target CurrentUserHomeDirectory \
+    -applyChoiceChangesXML choices.xml
+```
+    - Create symlinks within a folder that may contain all your executables or symlinks to executables
+    - Configure AWS CLI to use the IAM user credentials that we created in an earlier step:
+        - Run command `aws configure`:
+            - Enter Access Key ID
+            - Enter Secret Access Key
+            - Enter region
