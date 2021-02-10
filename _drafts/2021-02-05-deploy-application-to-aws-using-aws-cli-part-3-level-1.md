@@ -34,6 +34,15 @@ aws ec2 create-key-pair --key-name UsEast1KP --query 'KeyMaterial' \
 
 ## Obtain Image ID
 
+Obtain image id for the latest Amazon Linux 2 image:
+
+```
+aws ec2 describe-images --filters "Name=name,Values=amzn2-ami-hvm-2.0*-x86_64-gp2" | jq -r '.Images[].Name' | sort | tail -1 > image_name.txt
+
+IMAGE_NAME=`cat image_name.txt`
+aws ec2 describe-images --filters "Name=name,Values=$IMAGE_NAME" | jq -r '.Images[].ImageId' > image_id.txt
+```
+
 ## Launch an Instance
 
 ## Install Base Software
