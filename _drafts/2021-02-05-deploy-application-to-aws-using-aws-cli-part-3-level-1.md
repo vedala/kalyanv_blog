@@ -43,7 +43,14 @@ IMAGE_NAME=`cat image_name.txt`
 aws ec2 describe-images --filters "Name=name,Values=$IMAGE_NAME" | jq -r '.Images[].ImageId' > image_id.txt
 ```
 
-## Launch an Instance
+## Launch an Instance, obtain public IP address & instance ID
+
+Launch an EC2 instance:
+
+```
+IMAGE_ID=`cat image_id.txt`
+aws ec2 run-instances --image-id $IMAGE_ID --instance-type t2.micro --key-name UsEast1KP --security-group-ids sg-0f6a49c1d64c74de7
+```
 
 ## Install Base Software
 
