@@ -3,6 +3,10 @@ title: Deploying an application to AWS using AWS CLI, Part 2 - Level-1
 ---
 
 ## Create Security Group
+```
+aws ec2 create-security-group --group-name "my-sg-level-1" \
+    --description "Security group, level 1"
+```
 
 ## Create Key Pair
 
