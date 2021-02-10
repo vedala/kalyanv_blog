@@ -22,8 +22,15 @@ aws ec2 authorize-security-group-ingress --group-name my-sg-step1 \
     --protocol tcp --port 443 --cidr 0.0.0.0/0
 ```
 
+
 ## Create Key Pair
 
+Create key pair and save the certificate file:
+
+```
+aws ec2 create-key-pair --key-name UsEast1KP --query 'KeyMaterial' \
+    --output text > acct93user1.pem
+```
 
 ## Obtain Image ID
 
