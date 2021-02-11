@@ -188,6 +188,42 @@ even then, since we want to add a line that looks like "PATH=$PATH:...".
 For the second escaping we add two additional back slashes before the back
 slash we added above.
 
+## Install psycopg2
+
+Our python application needs a driver to access posgreSQL database. The library
+we will use is psycopg2. Here is how we install it:
+
+```
+cat <<-ENDCMDS > /tmp/install_psycopg2.sh
+#!/bin/bash
+set -euo pipefail
+
+cd microblog
+source venv/bin/activate
+
+# Install C compiler, needed for "pip install" of psycopg2 postgresql driver
+sudo yum -y install gcc
+
+# Install libpq library
+sudo yum -y install libpq5 libpq5-devel
+
+# Install wheel package
+pip install wheel
+
+# Install postgresql driver
+pip install psycopg2
+
+# Use password authentication instead of the default ident authentication.
+# Restart postgres service.
+sudo -u postgres sed 's/ident/md5/' /var/lib/pgsql/12/data/pg_hba.conf | sudo -u postgres tee /tmp/new_pg_hba.conf
+sudo -u postgres mv /tmp/new_pg_hba.conf /var/lib/pgsql/12/data/pg_hba.conf
+sudo systemctl reload postgresql-12
+
+ENDCMDS
+
+ssh -i $ssh_key_file ec2-user@$ip_address < /tmp/install_psycopg2.sh
+```
+
 ## Supervisor Setup
 
 ## Nginx Setup
