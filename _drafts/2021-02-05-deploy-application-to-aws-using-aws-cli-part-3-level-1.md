@@ -384,6 +384,16 @@ aws ec2 associate-address --instance-id `cat instance_id.txt` --public-ip $ELAST
 
 ## Register Domain
 
+Register a domain with a registrar of your choice. I registered my domain with GoDaddy.
+You can also register a domain using Route53.
+
+
+The instructions outlined in the following sections are for the scenario when you register
+your domain using an outside registrar. Some of the steps are different in the case where
+the domain is registered using Route53.
+
+Save the domain name in a text file `domain_name.txt`.
+
 ## Create Hosted Zone
 
 ## Create Record Sets
