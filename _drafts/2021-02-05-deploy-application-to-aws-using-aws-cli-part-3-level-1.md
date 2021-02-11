@@ -408,6 +408,9 @@ We create a hosted zone using the domain as the hosted zone's name. Hosted zone 
 also needs a caller reference parameter which is required to be unique. We use a timestamp
 as caller reference.
 
+We also need to save two pieces of information from the json returned by the create
+hosted zone request: Hosted Zone Id and Change Id.
+
 Hosted zone creation is treated as a request by Route53. For this reason, we need to save
 the Change ID information returned by the `create-hosted-zone` request. We can then use the
 change id to query the status:
