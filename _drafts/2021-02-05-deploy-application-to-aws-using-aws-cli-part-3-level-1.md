@@ -477,3 +477,23 @@ aws route53 get-change --id $CHANGE_ID --query "ChangeInfo.Status"
 ```
 
 ## Get Delegation Set and Update Nameserver Records with Domain Registrar
+
+```
+HOSTED_ZONE_ID=`cat hosted_zone_id.txt`
+aws route53 get-hosted-zone --id $HOSTED_ZONE_ID --query "DelegationSet" > delegation_set.txt
+```
+
+The delegation set is a list of name servers that looks similar to the list shown below:
+
+```
+{
+    "NameServers": [
+        "ns-xxx.awsdns-xx.net",
+        "ns-xxx.awsdns-xx.com",
+        "ns-xxxx.awsdns-xx.co.uk",
+        "ns-xxxx.awsdns-xx.org"
+    ]
+}
+```
+
+We need to update our domain's name servers on the domain registrar's site.
