@@ -149,6 +149,45 @@ sudo -i -u postgres -- bash -c "psql -c \"alter user postgres with password '$PG
 
 ## Install Application
 
+```
+MICROBLOG_PG_USER_PWD=`cat microblog_pg_user_pwd.txt`
+
+cat <<-ENDCMDS > /tmp/app_install.sh
+#!/bin/bash
+set -euo pipefail
+
+# Download the application source code
+git clone https://github.com/vedala/microblog_cli microblog
+
+# Create python virtual environment and install dependencies
+cd microblog
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# Install gunicorn
+pip install gunicorn
+
+echo "PATH=\\\$PATH:/usr/pgsql-12/bin" >> ~/.bash_profile
+
+# Create .env file for environment variables
+echo -n "SECRET_KEY=" > .env
+python -c 'import uuid; print(uuid.uuid4().hex)' >> .env
+echo "DATABASE_URL=postgres://microblog:$MICROBLOG_PG_USER_PWD@localhost:5432/microblog" >> .env
+
+ENDCMDS
+
+ssh -i $ssh_key_file ec2-user@$ip_address < /tmp/app_install.sh
+```
+
+The echo command that modified the PATH variable on the remote machine uses
+two levels of escaping. First, we do not want to expand $PATH on the local
+machine, so we add a "\" before the $ sign. The second escaping is needed,
+when echo command runs on the remote instance. We do not want to expand $PATH
+even then, since we want to add a line that looks like "PATH=$PATH:...".
+For the second escaping we add two additional back slashes before the back
+slash we added above.
+
 ## Supervisor Setup
 
 ## Nginx Setup
