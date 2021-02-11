@@ -49,7 +49,8 @@ Launch an EC2 instance:
 
 ```
 IMAGE_ID=`cat image_id.txt`
-aws ec2 run-instances --image-id $IMAGE_ID --instance-type t2.micro --key-name UsEast1KP --security-group-ids sg-0f6a49c1d64c74de7
+SG_ID=`cat sg_id.txt`
+aws ec2 run-instances --image-id $IMAGE_ID --instance-type t2.micro --key-name UsEast1KP --security-group-ids $SG_ID
 ```
 
 ## Install Base Software
