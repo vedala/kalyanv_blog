@@ -249,6 +249,75 @@ ssh -i $ssh_key_file ec2-user@$ip_address < /tmp/db_and_migrations.sh
 
 ## Supervisor Setup
 
+```
+cat <<-ENDCMDS > /tmp/install_supervisor.sh
+#!/bin/bash
+set -euo pipefail
+
+sudo easy_install supervisor
+sudo mkdir /etc/supervisor
+sudo echo_supervisord_conf | sudo tee /etc/supervisor/supervisord.conf
+sudo mkdir /etc/supervisor/conf.d
+sudo mkdir /var/log/supervisor
+
+# Modify socket file location under sections [unix_http_server] and [supervisorctl]
+sudo cp /etc/supervisor/supervisord.conf /tmp
+sudo sed -i 's#tmp/supervisor.sock#var/run/supervisor.sock#' /tmp/supervisord.conf
+
+# Modify items under [supervisord] section
+sudo sed -i 's#^logfile=/tmp/supervisord.log#logfile=/var/log/supervisord.log#' /tmp/supervisord.conf
+sudo sed -i 's#^pidfile=/tmp/supervisord.pid#logfile=/var/run/supervisord.pid#' /tmp/supervisord.conf
+sudo sed -i 's#^;childlogdir=/tmp#childlogdir=/var/log/supervisor#' /tmp/supervisord.conf
+
+# Uncomment [include] section and modify files configuration
+sudo sed -i 's#^\;\[include\]#[include]#' /tmp/supervisord.conf
+sudo sed -i 's/^\;files.*/files=\/etc\/supervisor\/conf.d\/*.conf/' /tmp/supervisord.conf
+
+sudo mv /tmp/supervisord.conf /etc/supervisor
+
+# Create script for systemctl service
+sudo tee /lib/systemd/system/supervisord.service <<-END_SERVICE_SCRIPT
+[Unit]
+Description=Supervisor process control system for UNIX
+Documentation=http://supervisord.org
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+ExecStop=/usr/bin/supervisorctl \\\$OPTIONS shutdown
+ExecReload=/usr/bin/supervisorctl -c /etc/supervisor/supervisord.conf \\\$OPTIONS reload
+KillMode=process
+Restart=on-failure
+RestartSec=50s
+
+[Install]
+WantedBy=multi-user.target
+END_SERVICE_SCRIPT
+
+# Start and enable supevisord
+sudo systemctl start supervisord
+sudo systemctl enable supervisord
+
+# Add supervisor configuration to monitor gunicorn
+sudo tee /etc/supervisor/conf.d/microblog.conf <<-END_GUNI_MONITOR
+[program:microblog]
+command=/home/ec2-user/microblog/venv/bin/gunicorn -b localhost:8000 -w 4 microblog:app
+directory=/home/ec2-user/microblog
+user=ec2-user
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+END_GUNI_MONITOR
+
+# Reload supervisor service
+sudo supervisorctl reload
+
+ENDCMDS
+
+ssh -i $ssh_key_file ec2-user@$ip_address < /tmp/install_supervisor.sh
+```
+
 ## Nginx Setup
 
 ## Allocate and Associate Elastic IP Address
