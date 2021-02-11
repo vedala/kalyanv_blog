@@ -55,6 +55,25 @@ aws ec2 run-instances --image-id $IMAGE_ID --instance-type t2.micro --key-name U
 
 ## Install Base Software
 
+The script shown below does the following things:
+- check for options
+- Accept keys for the new host to avoid interactive question
+- Install following software:
+    - python3 and related libraries
+    - git
+    - nginx
+    - postgreSQL (repo and libraries)
+- Initialize and setup postgreSQL database
+    - initialize database
+    - start and enable database service
+    - set admin user's password
+
+A note about how script is executed on the remote EC2 instance:
+
+- The script creates a sub-script that would be executed on the remote EC2 instance (let's call it remote_script).
+- The remote_script is created using `cat` command along with heredoc.
+- The remote_script then passed in as stdin to the ssh command. ssh executes the remote_script on the remote EC2 instance.
+
 ```
 #!/bin/bash
 set -euo pipefail
@@ -78,7 +97,7 @@ if [[ $ip_address == "" || $ssh_key_file == "" ]]; then
     exit 1
 fi
 
-# Accept keys for the new host to avoid having the interactive
+# Accept keys for the new host to avoid the interactive
 # question when connecting using ssh for the first time.
 
 ssh-keyscan $ip_address >> ~/.ssh/known_hosts
