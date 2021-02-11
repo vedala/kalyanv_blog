@@ -224,6 +224,29 @@ ENDCMDS
 ssh -i $ssh_key_file ec2-user@$ip_address < /tmp/install_psycopg2.sh
 ```
 
+## Create Database Schema and Run Migrations
+
+
+```
+MICROBLOG_PG_USER_PWD=`cat microblog_pg_user_pwd.txt`
+
+cat <<-ENDCMDS > /tmp/db_and_migrations.sh
+#!/bin/bash
+set -euo pipefail
+
+sudo -i -u postgres -- bash -c "psql -c \"create database microblog;\""
+sudo -i -u postgres -- bash -c "psql -c \"create user microblog with encrypted password '$MICROBLOG_PG_USER_PWD';\""
+sudo -i -u postgres -- bash -c "psql -c \"grant all privileges on database microblog to microblog;\""
+
+cd microblog
+source venv/bin/activate
+flask db upgrade
+
+ENDCMDS
+
+ssh -i $ssh_key_file ec2-user@$ip_address < /tmp/db_and_migrations.sh
+```
+
 ## Supervisor Setup
 
 ## Nginx Setup
