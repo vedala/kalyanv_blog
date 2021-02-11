@@ -320,6 +320,57 @@ ssh -i $ssh_key_file ec2-user@$ip_address < /tmp/install_supervisor.sh
 
 ## Nginx Setup
 
+```
+cat <<-ENDCMDS > /tmp/config_nginx.sh
+#!/bin/bash
+set -euo pipefail
+
+cd microblog
+mkdir certs
+openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 -keyout certs/key.pem -out certs/cert.pem -subj "/C=US/O=Microblog, AWS CLI/CN=mbawscli"
+
+sudo tee /etc/nginx/conf.d/microblog.conf <<-END_NGINX_CFG
+server {
+    listen 80;
+    server_name _;
+    location / {
+        return 301 https://\\\$host\\\$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name _;
+
+    ssl_certificate /home/ec2-user/microblog/certs/cert.pem;
+    ssl_certificate_key /home/ec2-user/microblog/certs/key.pem;
+
+    access_log /var/log/microblog_access.log;
+    error_log /var/log/microblog_error.log;
+
+    location / {
+        proxy_pass http://localhost:8000;
+        proxy_redirect off;
+        proxy_set_header Host \\\$host;
+        proxy_set_header X-Real-IP \\\$remote_addr;
+        proxy_set_header X-Forwarded-For \\\$proxy_add_x_forwarded_for;
+    }
+
+    location /static {
+        alias /home/ubuntu/microblog/app/static;
+        expires 30d;
+    }
+}
+END_NGINX_CFG
+
+sudo systemctl start nginx
+sudo systemctl enable nginx
+
+ENDCMDS
+
+ssh -i $ssh_key_file ec2-user@$ip_address < /tmp/config_nginx.sh
+```
+
 ## Allocate and Associate Elastic IP Address
 
 ## Register Domain
