@@ -469,4 +469,11 @@ aws route53 change-resource-record-sets --hosted-zone-id `cat hosted_zone_id.txt
 cat /tmp/record_sets_create_info.txt | jq '.ChangeInfo.Id' | sed 's/"//g' | sed 's#/change/##' > create_rs_change_id.txt
 ```
 
+Verify that record set creation request has its status set to `INSYNC`:
+
+```
+CHANGE_ID=`cat create_rs_change_id.txt`
+aws route53 get-change --id $CHANGE_ID --query "ChangeInfo.Status"
+```
+
 ## Get Delegation Set and Update Nameserver Records with Domain Registrar
