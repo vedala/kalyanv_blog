@@ -373,6 +373,15 @@ ssh -i $ssh_key_file ec2-user@$ip_address < /tmp/config_nginx.sh
 
 ## Allocate and Associate Elastic IP Address
 
+```
+aws ec2 allocate-address
+
+aws ec2 describe-addresses --query "Addresses[0].PublicIp" | sed 's/"//g' > elastic_ip_addr.txt
+
+ELASTIC_IP_ADDR=`cat elastic_ip_addr.txt`
+aws ec2 associate-address --instance-id `cat instance_id.txt` --public-ip $ELASTIC_IP_ADDR
+```
+
 ## Register Domain
 
 ## Create Hosted Zone
