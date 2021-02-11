@@ -55,6 +55,79 @@ aws ec2 run-instances --image-id $IMAGE_ID --instance-type t2.micro --key-name U
 
 ## Install Base Software
 
+```
+#!/bin/bash
+set -euo pipefail
+
+ip_address=""
+ssh_key_file=""
+while getopts "i:k:" opt; do
+    case "$opt" in
+    i)
+        ip_address=$OPTARG
+        ;;
+    k)
+        ssh_key_file=$OPTARG
+        ;;
+    esac
+done
+
+if [[ $ip_address == "" || $ssh_key_file == "" ]]; then
+    echo "$(basename $0): Required options are missing."
+    echo "Usage: $(basename $0) -i instance-ip -k ssh-key-file"
+    exit 1
+fi
+
+# Accept keys for the new host to avoid having the interactive
+# question when connecting using ssh for the first time.
+
+ssh-keyscan $ip_address >> ~/.ssh/known_hosts
+
+PG_ADMIN_PWD=`cat pg_admin_pwd.txt`
+
+cat <<-ENDCMDS > /tmp/remote_script.sh
+#!/bin/bash
+set -euo pipefail
+
+sudo yum -y update
+sudo yum -y install python3 python3-venv python3-devel
+sudo yum -y install git
+
+# Install nginx
+sudo amazon-linux-extras install -y nginx1
+
+#
+# Install postgresql 12
+#
+
+# Add repo
+sudo tee /etc/yum.repos.d/pgdg.repo <<-PGREPO
+[pgdg12]
+name=PostgreSQL 12 for RHEL/CentOS 7
+baseurl=https://download.postgresql.org/pub/repos/yum/12/redhat/rhel-7-x86_64
+enabled=1
+gpgcheck=0
+PGREPO
+
+# Generate metadata cache and install postgresql 12
+sudo yum makecache
+sudo yum -y install postgresql12 postgresql12-libs postgresql12-server
+
+# Initialize database
+sudo /usr/pgsql-12/bin/postgresql-12-setup initdb
+
+# Start and enable database service
+sudo systemctl start postgresql-12
+sudo systemctl enable postgresql-12
+
+# Set postgresql admin user's password
+sudo -i -u postgres -- bash -c "psql -c \"alter user postgres with password '$PG_ADMIN_PWD'\""
+
+ENDCMDS
+
+ssh -i $ssh_key_file ec2-user@$ip_address < /tmp/remote_script.sh
+```
+
 ## Initialize PostgreSQL Database
 
 ## Install Application
