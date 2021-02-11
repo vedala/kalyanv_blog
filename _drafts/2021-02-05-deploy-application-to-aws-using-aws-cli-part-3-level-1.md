@@ -63,10 +63,6 @@ The script shown below does the following things:
     - git
     - nginx
     - postgreSQL (repo and libraries)
-- Initialize and setup postgreSQL database
-    - initialize database
-    - start and enable database service
-    - set admin user's password
 
 A note about how script is executed on the remote EC2 instance:
 
@@ -131,8 +127,16 @@ PGREPO
 # Generate metadata cache and install postgresql 12
 sudo yum makecache
 sudo yum -y install postgresql12 postgresql12-libs postgresql12-server
+```
 
-# Initialize database
+## Initialize PostgreSQL Database
+
+Initialize and setup postgreSQL database
+    - initialize database
+    - start and enable database service
+    - set admin user's password
+
+```
 sudo /usr/pgsql-12/bin/postgresql-12-setup initdb
 
 # Start and enable database service
@@ -141,13 +145,7 @@ sudo systemctl enable postgresql-12
 
 # Set postgresql admin user's password
 sudo -i -u postgres -- bash -c "psql -c \"alter user postgres with password '$PG_ADMIN_PWD'\""
-
-ENDCMDS
-
-ssh -i $ssh_key_file ec2-user@$ip_address < /tmp/remote_script.sh
 ```
-
-## Initialize PostgreSQL Database
 
 ## Install Application
 
