@@ -426,4 +426,47 @@ we have to make sure the hosted zone creation request has the `INSYNC` status.
 
 ## Create Record Sets
 
+```
+DOMAIN_NAME=`cat domain_name.txt`
+aws route53 change-resource-record-sets --hosted-zone-id `cat hosted_zone_id.txt` \
+    --change-batch '{
+        "Changes": [
+            {
+                "Action": "CREATE",
+                "ResourceRecordSet": {
+                    "Name": "'$DOMAIN_NAME'",
+                    "Type": "A",
+                    "TTL": 60,
+                    "ResourceRecords": [ { "Value": "'$(cat elastic_ip_addr.txt)'"} ]
+                    }
+            },
+            {
+                "Action": "CREATE",
+                "ResourceRecordSet": {
+                    "Name": "www.'$DOMAIN_NAME'",
+                    "Type": "A",
+                    "AliasTarget": {
+                        "HostedZoneId": "'$(cat hosted_zone_id.txt)'",
+                        "DNSName": "'$DOMAIN_NAME'",
+                        "EvaluateTargetHealth": false
+                    }
+                }
+            },
+            {
+                "Action": "CREATE",
+                "ResourceRecordSet": {
+                    "Name": "*.'$DOMAIN_NAME'",
+                    "Type": "A",
+                    "AliasTarget": {
+                        "HostedZoneId": "'$(cat hosted_zone_id.txt)'",
+                        "DNSName": "'$DOMAIN_NAME'", "EvaluateTargetHealth": false
+                    }
+                }
+            }
+        ]
+    }' > /tmp/record_sets_create_info.txt
+
+cat /tmp/record_sets_create_info.txt | jq '.ChangeInfo.Id' | sed 's/"//g' | sed 's#/change/##' > create_rs_change_id.txt
+```
+
 ## Get Delegation Set and Update Nameserver Records with Domain Registrar
