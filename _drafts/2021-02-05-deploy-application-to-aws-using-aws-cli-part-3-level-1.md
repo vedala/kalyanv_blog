@@ -396,6 +396,31 @@ Save the domain name in a text file `domain_name.txt`.
 
 ## Create Hosted Zone
 
+```
+CALLER_REF=$(date +%Y-%m-%d-%H:%M:%S)
+DOMAIN_NAME=`cat domain_name.txt`
+RETURN_JSON=$(aws route53 create-hosted-zone --name $DOMAIN_NAME --caller-reference $CALLER_REF)
+echo $RETURN_JSON | jq '.HostedZone.Id' | sed 's/"//g' | sed 's#/hostedzone/##' > hosted_zone_id.txt
+echo $RETURN_JSON | jq '.ChangeInfo.Id' | sed 's/"//g' | sed 's#/change/##' > create_hz_change_id.txt
+```
+
+We create a hosted zone using the domain as the hosted zone's name. Hosted zone creation
+also needs a caller reference parameter which is required to be unique. We use a timestamp
+as caller reference.
+
+Hosted zone creation is treated as a request by Route53. For this reason, we need to save
+the Change ID information returned by the `create-hosted-zone` request. We can then use the
+change id to query the status:
+
+```
+CHANGE_ID=`cat create_hz_change_id.txt`
+aws route53 get-change --id $CHANGE_ID --query "ChangeInfo.Status"
+```
+
+Requests to Route53 are assigned an initial status of `PENDING`. Upon completion of the
+request, the status changes to `INSYNC`. Before moving on to the record set creation step,
+we have to make sure the hosted zone creation request has the `INSYNC` status.
+
 ## Create Record Sets
 
 ## Get Delegation Set and Update Nameserver Records with Domain Registrar
