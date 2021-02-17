@@ -1,18 +1,19 @@
 ---
-title: Deploying an application to AWS using AWS CLI, Part 2 - Level-1
+title: Deploying an application to AWS using AWS CLI, Part 2 - AWS Account, IAM User & Application Repository
 ---
-
-## Application
 
 ## AWS Root Account and IAM User
 - Create a new AWS root account
 - Configure the root account
     - Setup MFA
     - Setup billing alert
+
+## IAM User
 - Create IAM user
     - Create an IAM user with "AdministratorAccess" policy.
     - Give it some name, e.g. Developers
     - Allow both console and programmatic access for the user
+    - Save credentials CSV file to local machine
 
 ## Install AWS CLI
 - <A few points>
@@ -37,3 +38,7 @@ installer -pkg AWSCLIV2.pkg \
             - Enter Access Key ID
             - Enter Secret Access Key
             - Enter region
+
+## Install jq
+
+## Create Application Repository
