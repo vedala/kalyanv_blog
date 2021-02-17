@@ -8,7 +8,7 @@ title: Deploying an application to AWS using AWS CLI, Part 1 - Introduction
 - decided to develop a series of tutorials setup infrastructure of increasing complexity as described in the above video
 
 
-## Application
+## Example Application
 
 - I wanted to get working on writing the deployment scripts
 - So used an already available application
@@ -16,6 +16,16 @@ title: Deploying an application to AWS using AWS CLI, Part 1 - Introduction
 
 ## Why Flask Mega-Tutorial
 
-- Use Flask and Python
 - I have "studied" the tutorial several times, it is one of the best tutorials for web application that I have seen.
 
+## Application Technology Stack
+
+Application uses:
+- Python-based Flask application framework
+- nginx as web server
+- PostgreSQL database
+
+## Tools Used for Deployment
+- AWS CLI
+- bash
+- jq
