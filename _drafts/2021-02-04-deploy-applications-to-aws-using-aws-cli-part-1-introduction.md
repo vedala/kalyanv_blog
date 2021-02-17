@@ -4,8 +4,8 @@ title: Deploying an application to AWS using AWS CLI, Part 1 - Introduction
 
 ## Introduction to Deploying an Application to AWS using AWS CLI Tutorial Series
 
-- watched getting to 10 million users Reinvent presentation
-- decided to develop a series of tutorials setup infrastructure of increasing complexity as described in the above video
+- this tutorial series aims to replicate the architecture recommendations as described in the [Scaling Up to Your First 10 million Users](https://www.youtube.com/watch?v=vg5onp8TU6Q) video as presented at Re:invent 2015.
+- decided to develop a series of tutorials to provision infrastructure to support an increasing number of users.
 
 
 ## Example Application
