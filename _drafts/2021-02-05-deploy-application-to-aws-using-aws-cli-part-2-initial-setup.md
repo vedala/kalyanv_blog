@@ -76,12 +76,14 @@ title: Deploying an application to AWS using AWS CLI, Part 2 - AWS Account, IAM 
         ln -s $HOME/bin/aws-cli/aws-completer .
         ```
 
-    - Configure AWS CLI to use the IAM user credentials that we created in an earlier step:
+    - Configure AWS CLI to use the IAM user credentials that we downloaded in an earlier step:
         - Run command `aws configure`:
             - Enter Access Key ID
             - Enter Secret Access Key
             - Enter region
 
 ## Install jq
+
+If not already present, install `jq` utility on your local machine from the [jq website](https://stedolan.github.io/jq/download/).
 
 ## Create Application Repository
