@@ -14,20 +14,20 @@ I want this blog series to focus on developing infrastucture deployment scripts.
 ## Why Flask Mega-Tutorial
 
 A few reasons why I picked this application:
-- Uses python-based web framework - Flask. Flask is a micro framework which can be learned very quickly.
-- In my opinion, Grinberg's tutorial is by far the best tutorial to learn Flask application development. In fact, the tutorial is best I have seen for learning web application development - not just python web development, but web development in general.
+* Uses python-based web framework - Flask. Flask is a micro framework which can be learned very quickly.
+* In my opinion, Grinberg's tutorial is by far the best tutorial to learn Flask application development. In fact, the tutorial is best I have seen for learning web application development - not just python web development, but web development in general.
 
 
 ## Application Technology Stack
 
 Application uses:
-- Python-based Flask application framework
-- nginx as web server
-- PostgreSQL database
+* Python-based Flask application framework
+* nginx as web server
+* PostgreSQL database
 
 The application repository setup is described in more detail in [Part 2]().
 
 ## Tools Used for Deployment
-- AWS CLI
-- bash
-- jq
+* AWS CLI
+* bash
+* jq
