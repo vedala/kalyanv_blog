@@ -21,7 +21,7 @@ title: Deploying an application to AWS using AWS CLI, Part 2 - AWS Account, IAM 
     - Installing version 2
     - Used this guide as reference [AWS CLI Users Guide](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
 - Installation Steps
-    - Following the instructions under _Installing the AWS CLI_ -> _AWS CLI version 2_ -> _macOS_
+    - Following the instructions under _Installing the AWS CLI_ --> _AWS CLI version 2_ --> _macOS_
 
     - Copy and save the provided XML template to a file. This XML ile is used to specify the location where we want aws-cli to be installed. I wanted to install the AWS CLI executables in `bin` folder under my home directory. The XML after modifications looks as follows (I only modified the location of the directory):
 
@@ -56,10 +56,24 @@ title: Deploying an application to AWS using AWS CLI, Part 2 - AWS Account, IAM 
             -applyChoiceChangesXML choices.xml
         ```
 
-    - Create symlinks within a folder that may contain all your executables or symlinks to executables
+    - Create symlinks within a folder that may contain all your executables or symlinks to executables. I created a folder to hold all my executable links. Since I created a new folder to hold my executable links, I adding this folder to PATH variable in my .bash_profile:
 
         ```
-        ln -s 
+        mkdir ~/executable_links
+        ```
+
+        **Add to ~/.bash_profile**:
+
+        ```
+        PATH=$HOME/executable_links:$PATH
+        ```
+
+        Create symlinks:
+
+        ```
+        cd ~/executable_links
+        ln -s $HOME/bin/aws-cli/aws .
+        ln -s $HOME/bin/aws-cli/aws-completer .
         ```
 
     - Configure AWS CLI to use the IAM user credentials that we created in an earlier step:
