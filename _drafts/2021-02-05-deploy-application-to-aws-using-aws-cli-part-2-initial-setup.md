@@ -10,29 +10,58 @@ title: Deploying an application to AWS using AWS CLI, Part 2 - AWS Account, IAM 
 
 ## IAM User
 - Create IAM user
-    - Create an IAM user with "AdministratorAccess" policy.
+    - Create an IAM user with "AdministratorAccess" policy
     - Give it some name, e.g. Developers
     - Allow both console and programmatic access for the user
     - Save credentials CSV file to local machine
 
 ## Install AWS CLI
-- <A few points>
+- Installation basics
     - Installing on macOS for a single user
     - Installing version 2
     - Used this guide as reference [AWS CLI Users Guide](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
 - Installation Steps
-    - Create an XL file to specify the location where we want aws-cli to be installed
+    - Following the instructions under _Installing the AWS CLI_ -> _AWS CLI version 2_ -> _macOS_
+
+    - Copy and save the provided XML template to a file. This XML ile is used to specify the location where we want aws-cli to be installed. I wanted to install the AWS CLI executables in `bin` folder under my home directory. The XML after modifications looks as follows (I only modified the location of the directory):
+
+        ```
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+        <array>
+            <dict>
+            <key>choiceAttribute</key>
+            <string>customLocation</string>
+            <key>attributeSetting</key>
+            <string>/Users/your_home_directory/bin</string>
+            <key>choiceIdentifier</key>
+            <string>default</string>
+            </dict>
+        </array>
+        </plist>
+        ```
+
     - Download install package
-```
-curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
-```
-    - Run installer command, specify the XML created in the previous steps:
-```
-installer -pkg AWSCLIV2.pkg \
-    -target CurrentUserHomeDirectory \
-    -applyChoiceChangesXML choices.xml
-```
+
+        ```
+        curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+        ```
+
+    - Run installer command, specify the XML file that you created in the previous steps:
+
+        ```
+        installer -pkg AWSCLIV2.pkg \
+            -target CurrentUserHomeDirectory \
+            -applyChoiceChangesXML choices.xml
+        ```
+
     - Create symlinks within a folder that may contain all your executables or symlinks to executables
+
+        ```
+        ln -s 
+        ```
+
     - Configure AWS CLI to use the IAM user credentials that we created in an earlier step:
         - Run command `aws configure`:
             - Enter Access Key ID
