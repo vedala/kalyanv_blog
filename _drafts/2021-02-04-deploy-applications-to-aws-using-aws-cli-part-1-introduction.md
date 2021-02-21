@@ -25,7 +25,7 @@ Application uses:
 * nginx as web server
 * PostgreSQL database
 
-The application repository setup is described in more detail in [Part 3b]().
+The application repository setup is described in more detail in [Part 3b]({{ site.baseurl }} {% link _posts/2021-02-06-deploy-application-to-aws-using-aws-cli-part-3b-application.md %}).
 
 ## Tools Used for Deployment
 * AWS CLI
