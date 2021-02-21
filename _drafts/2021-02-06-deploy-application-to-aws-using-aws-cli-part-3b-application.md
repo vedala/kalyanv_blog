@@ -97,6 +97,10 @@ sudo systemctl enable postgresql-12
 
 # Set postgresql admin user's password
 sudo -i -u postgres -- bash -c "psql -c \"alter user postgres with password '$PG_ADMIN_PWD'\""
+
+ENDCMDS
+
+ssh -i $ssh_key_file ec2-user@$ip_address < /tmp/remote_script.sh
 ```
 
 ## Download Application, Create & Configure Virtual Environment
