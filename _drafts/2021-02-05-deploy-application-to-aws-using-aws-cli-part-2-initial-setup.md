@@ -1,5 +1,5 @@
 ---
-title: Deploying an application to AWS using AWS CLI, Part 2 - AWS Account, IAM User & Application Repository
+title: Deploying an application to AWS using AWS CLI, Part 2 - AWS Account, IAM User & AWS CLI Installation
 ---
 
 ## AWS Root Account and IAM User
