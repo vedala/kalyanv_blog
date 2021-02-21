@@ -85,5 +85,3 @@ title: Deploying an application to AWS using AWS CLI, Part 2 - AWS Account, IAM 
 ## Install jq
 
 If not already present, install `jq` utility on your local machine from the [jq website](https://stedolan.github.io/jq/download/).
-
-## Create Application Repository
