@@ -25,7 +25,7 @@ Application uses:
 * nginx as web server
 * PostgreSQL database
 
-The application repository setup is described in more detail in [Part 4]().
+The application repository setup is described in more detail in [Part 3b]().
 
 ## Tools Used for Deployment
 * AWS CLI
