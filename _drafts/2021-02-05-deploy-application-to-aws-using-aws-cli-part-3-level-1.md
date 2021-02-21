@@ -4,7 +4,7 @@ title: Deploying an application to AWS using AWS CLI, Part 3 - Level-1 Architect
 
 ## Level-1 Architecture
 
-As I mentioned in [Part 1 - Introduction](), this blog series develops a series of deployment architectures to mirror the recommendations made in the Re:invent video. **improve text, add link**
+As I mentioned in [Part 1 - Introduction]({{ site.baseurl }} {% link _posts/2021-02-04-deploy-applications-to-aws-using-aws-cli-part-1-introduction.md %}), this blog series develops a series of deployment architectures to mirror the recommendations made in the [Scaling Up to Your First 10 million Users](https://www.youtube.com/watch?v=vg5onp8TU6Q)
 
 The original video just describes a series a recommendations; I demarcated the recommendations into a few "levels". "Level" is the word that I am using for the purpose of this blog series.
 
