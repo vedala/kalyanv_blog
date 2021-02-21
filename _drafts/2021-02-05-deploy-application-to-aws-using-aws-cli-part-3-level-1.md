@@ -13,8 +13,8 @@ The original video just describes a series a recommendations; I demarcated the r
 Create security group:
 
 ```
-aws ec2 create-security-group --group-name "my-sg-step1" \
-    --description "Security group, step 1"
+aws ec2 create-security-group --group-name "my-sg-level1" \
+    --description "Security group, level1"
 ```
 
 Allow incoming traffic on ports 22, 80 and 443 for ssh, http and https.
