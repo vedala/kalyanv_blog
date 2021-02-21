@@ -4,15 +4,15 @@ title: Deploying an application to AWS using AWS CLI, Part 3b - Application Repo
 
 ## Application Repository
 
-As I mentioned in Part 1 - Introduction post, I decided to use the application developed as part of Miguel Grinberg's Flask Mega Tutorial.
+As I mentioned in [Part 1 - Introduction]({{ site.baseurl }} {% link _posts/2021-02-04-deploy-applications-to-aws-using-aws-cli-part-1-introduction.md %}) post, I decided to use the application developed as part of Miguel Grinberg's [Flask Mega-Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world).
 
-Since the focus of this blog series is on deploying to AWS. I decided to keep the application simple. Therefore, I cloned the application as it stands at Chapter 9 of Grinberg's series. In addition, I apply the minor modifications needed to use the `python-dotenv` package as described in Chapter 15.
+Since the focus of this blog series is on deploying to AWS. I decided to keep the application simple. Therefore, I cloned the application as it stands at [Chapter 9: Pagination](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-ix-pagination) of Grinberg's series. In addition, I apply the minor modifications needed to use the `python-dotenv` package as described in [Chapter 15](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xv-a-better-application-structure).
 
 To summarize:
 * Start with application with modifitions upto and including Chapter 9 of Grinberg's tutorial.
 * Apply changes related to `python-dotenv` as described in Chapter 15.
 
-I made these modifications and pushed the changes to the `microblog_cli` repository here.
+I made these modifications and pushed the changes to [microblog_cli](https://github.com/vedala/microblog_cli) repository.
 
 
 ## Preparing an EC2 Instance to Host the Application
@@ -22,7 +22,7 @@ For the Level-1 architecture, we install all tiers on the one EC2 instance. We i
 * Flask as application server / business logic framework
 * PostgreSQL as database
 
-This preparation of EC2 instance also closely follows the instructions from Grinberg's tutorial as described in Chapter 17: Deployment to Linux. The deployment instructions described in the rest of this post are a little different from the instructions described in Grinberg tutorial's Chapter 17. The summary of the differences is:
+This preparation of EC2 instance also closely follows the instructions from Grinberg's tutorial as described in [Chapter 17: Deployment to Linux](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xvii-deployment-on-linux). The deployment instructions described in the rest of this post are a little different from the instructions described in Grinberg tutorial's Chapter 17. The summary of the differences is:
 * We use Amazon Linux 2 for our EC2 instance instead of Ubuntu
 * We use PosgreSQL database instead of MySQL
 * We skip the _Password-less Logins_ section
