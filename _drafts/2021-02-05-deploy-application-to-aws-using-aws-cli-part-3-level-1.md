@@ -2,6 +2,12 @@
 title: Deploying an application to AWS using AWS CLI, Part 3 - Level-1 Architecture
 ---
 
+## Level-1 Architecture
+
+As I mentioned in [Part 1 - Introduction](), this blog series develops a series of deployment architectures to mirror the recommendations made in the Re:invent video. **improve text, add link**
+
+The original video just describes a series a recommendations; I demarcated the recommendations into a few "levels". "Level" is the word that I am using for the purpose of this blog series.
+
 ## Create Security Group and Allow Incoming Traffic
 
 Create security group:
