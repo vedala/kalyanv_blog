@@ -4,22 +4,23 @@ title: Deploying an application to AWS using AWS CLI, Part 3b - Application Repo
 
 ## Create Application Repository
 
-## Install Base Software
-
+## Executing Scripts on an EC2 Instance
 The script shown below does the following things:
-- check for options
-- Accept keys for the new host to avoid interactive question
-- Install following software:
-    - python3 and related libraries
-    - git
-    - nginx
-    - postgreSQL (repo and libraries)
+* check for options
+* Accept keys for the new host to avoid interactive question
+* Install following software:
+    * python3 and related libraries
+    * git
+    * nginx
+    * postgreSQL (repo and libraries)
 
 A note about how script is executed on the remote EC2 instance:
 
-- The script creates a sub-script that would be executed on the remote EC2 instance (let's call it remote_script).
-- The remote_script is created using `cat` command along with heredoc.
-- The remote_script then passed in as stdin to the ssh command. ssh executes the remote_script on the remote EC2 instance.
+* The script creates a sub-script that would be executed on the remote EC2 instance (let's call it remote_script).
+* The remote_script is created using `cat` command along with heredoc.
+* The remote_script then passed in as stdin to the ssh command. ssh executes the remote_script on the remote EC2 instance.
+
+## Install Python, Git, Nginx and PosgreSQL Packages
 
 ```
 #!/bin/bash
@@ -98,7 +99,7 @@ sudo systemctl enable postgresql-12
 sudo -i -u postgres -- bash -c "psql -c \"alter user postgres with password '$PG_ADMIN_PWD'\""
 ```
 
-## Install Application
+## Download Application, Create & Configure Virtual Environment
 
 ```
 MICROBLOG_PG_USER_PWD=`cat microblog_pg_user_pwd.txt`
@@ -133,7 +134,7 @@ ssh -i $ssh_key_file ec2-user@$ip_address < /tmp/app_install.sh
 
 The echo command that modified the PATH variable on the remote machine uses
 two levels of escaping. First, we do not want to expand $PATH on the local
-machine, so we add a "\" before the $ sign. The second escaping is needed,
+machine, so we add a "\\" before the $ sign. The second escaping is needed,
 when echo command runs on the remote instance. We do not want to expand $PATH
 even then, since we want to add a line that looks like "PATH=$PATH:...".
 For the second escaping we add two additional back slashes before the back
