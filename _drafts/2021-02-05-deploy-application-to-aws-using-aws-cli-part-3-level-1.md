@@ -55,7 +55,7 @@ aws ec2 run-instances --image-id $IMAGE_ID --instance-type t2.micro --key-name U
 
 ## Install Required Software and Application to EC2 Instance
 
-Follow the instructions in [Part 3b]() to install the required software and application to the EC2 instance. After completing the steps in Part 3b, come back here and continue with allocating Elatic IP address.
+Follow the instructions in [Part 3b]({{ site.baseurl }} {% link _posts/2021-02-06-deploy-application-to-aws-using-aws-cli-part-3b-application.md %}) to install the required software and application to the EC2 instance. After completing the steps in Part 3b, come back here and continue with allocating Elatic IP address.
 
 ## Allocate and Associate Elastic IP Address
 
