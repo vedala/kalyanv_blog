@@ -72,7 +72,7 @@ if "dolor" in "Lorem ipsum DOLOR sit amet.".lower():
 ```
 
 <ins>comparison operators</ins>
-- "==" and "!==" operators can be used to compare equivalence of two strings.
+- "==" and "!=" operators can be used to compare equivalence of two strings.
 
 ## Conclusion
 
