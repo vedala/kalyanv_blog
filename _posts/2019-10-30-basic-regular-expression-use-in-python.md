@@ -30,7 +30,7 @@ else:
 The above conditional works because:
 - `match()` returns `None` if there is no match
 - returns a `match` object if there is a match
-- `match` objects always return a truthy value of `True`
+- presense of an object (the `match` object) makes the return value have truthy value of `True`
 - Since `None` is equivalent to boolean value `False`, we can use `re.match()` directly in a conditional as shown above.
 
 ## Using Search
