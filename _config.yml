@@ -3,7 +3,6 @@ title: KalyanV
 author: &anchor_author "Kalyan Vedala"
 header_pages:
     - projects.md
-    - contact.html
     - about.md
 defaults:
   - scope:
